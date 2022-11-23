@@ -184,6 +184,15 @@ export function getIssueCommentsByIssueTrueId({ token, issueTrueId }) {
 	return fcJSONAuth(API_URL + '/comment/getCommentByIssueID?issueID=' + issueTrueId, token)
 }
 
+export function createComment({ token, content, issueTrueId }) {
+	return fcJSONAuth(API_URL + '/comment/add', token, {
+		method: 'POST',
+		body: JSON.stringify({
+			content,
+			issueID: issueTrueId,
+		})
+	})
+}
 // export function downloadZIP({ repoId, branch }) {
 // 	return fcJS
 // }

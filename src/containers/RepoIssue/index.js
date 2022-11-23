@@ -15,9 +15,10 @@ import Tab from "../../components/Tab";
 import Textarea from "../../components/Textarea";
 import { useState } from "react";
 import Button from "../../components/Button";
-import { useLoaderData } from "react-router-dom";
+import { Form, useActionData, useLoaderData, useNavigation } from "react-router-dom";
 import dayjs from "dayjs";
 import UserLink from "../../components/UserLink";
+import Alert from "../../components/Alert";
 
 // authorID
 // : 
@@ -71,6 +72,9 @@ export default function RepoIssue() {
 
 	const [md, setMd] = useState('')
 	const { issueInfo, comments } = useLoaderData()
+	const navigation = useNavigation()
+	const err = useActionData()?.err
+
 	return <>
 		
 		<div className="pb-3 border-b border-gray-300">
@@ -106,16 +110,20 @@ export default function RepoIssue() {
 					</Tabb.List>
 					<Tabb.Panels>
 						<Tabb.Panel>
-							<form method="post">
+							<Form method="post" className="space-y-2">
+								{(err && navigation.state === 'idle') && <Alert variant="red">{err}</Alert>}
 								<Textarea style={{height: '200px'}} placeholder="Styling with Markdown is supported"
 									onChange={(e) => setMd(e.target.value)}
 									value={md}
+									name="content"
 								/>
-								<div className="flex justify-end space-x-2 mt-2">
-									<Button variant="purple">Close issue</Button>
-									<Button variant="blue">Comment</Button>
+								<input type="hidden" name="issueTrueId" value={issueInfo.id}/>
+								<div className="flex justify-end space-x-2">
+									<Button variant="purple" type="button">Close issue</Button>
+									<Button variant="blue" type="submit">Comment</Button>
 								</div>
-							</form>
+							</Form>
+						
 						</Tabb.Panel>
 						<Tabb.Panel>
 							<div className="px-3 py-1.5">

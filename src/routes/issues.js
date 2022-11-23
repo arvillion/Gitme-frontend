@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom"
-import { createIssue, getIssueCommentsByIssueTrueId, getIssueInfo, getRepoIdByUserNameAndRepoName, getRepoInfo } from "../utils/api"
+import { createComment, createIssue, getIssueCommentsByIssueTrueId, getIssueInfo, getRepoIdByUserNameAndRepoName, getRepoInfo } from "../utils/api"
 
 export async function createIssueAction({ params, request }) {
 	const token = localStorage.getItem('token')
@@ -28,4 +28,20 @@ export async function issueLoader({ params, request }) {
 	const { data: comments } = await getIssueCommentsByIssueTrueId({ token, issueTrueId })
 	console.log(issueInfo, comments)
 	return { issueInfo, comments }
+}
+
+export async function issueAction({ params, request }) {
+	const { method } = request
+	const token = localStorage.getItem('token')
+	const formData = await request.formData()
+	if (method === 'POST') {
+		const issueTrueId = formData.get('issueTrueId')
+		const content = formData.get('content')
+		try {
+			await createComment({ token, content, issueTrueId })
+			return { err: '' }
+		} catch (err) {
+			return { err: err.message }
+		}
+	}
 }

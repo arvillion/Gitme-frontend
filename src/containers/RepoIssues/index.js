@@ -3,7 +3,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { Link, useRouteLoaderData } from "react-router-dom";
+import { Link, useActionData, useRouteLoaderData } from "react-router-dom";
 import Button from "../../components/Button";
 import Spinner from "../../components/Spinner";
 import { getIssues } from "../../utils/api";
@@ -24,7 +24,6 @@ export default function RepoIssues() {
 			setClosedIssues(data.filter(d => !d.state))
 		})
 	}, [repoId])
-	
 	
 
 	return <>

@@ -17,7 +17,7 @@ import repoInfoLoader, { contentLoader, repoAction, starAction } from "./repo";
 import { editProfileAction, userDataLoader } from "./user";
 import DefaultBranchRedirect from "../containers/DefaultBranchRedirect";
 import NewIssue from "../containers/NewIssue";
-import { createIssueAction, issueLoader } from "./issues";
+import { createIssueAction, issueAction, issueLoader, newCommentAction } from "./issues";
 
 const router = createBrowserRouter([
 	{
@@ -86,6 +86,7 @@ const router = createBrowserRouter([
 							{
 								path: ':issueId',
 								loader: issueLoader,
+								action: issueAction,
 								element: <RepoIssue />
 							},
 							{

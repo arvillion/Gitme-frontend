@@ -19,7 +19,7 @@ export default function StarButton({
 			{disabled ? <FontAwesomeIcon icon={faCircleNotch} spin={true} className="mr-3" />
 			          : <FontAwesomeIcon icon={isStarred ? faStar : faHollowStar} className={isStarred ? "mr-3 text-yellow-500" : "mr-3"}/>}
 			{isStarred ? "Starred" : "Star"}
-			{(starNum !== undefined) && <Badge type="gray full">{starNum}</Badge>}
+			{(starNum !== undefined) && <Badge type="gray full" className="ml-1.5">{starNum}</Badge>}
 		</Button>
 	</fetcher.Form>
 }
