@@ -94,9 +94,9 @@ export default function RepoIssue() {
 			</div>
 		</div>
 		<div className="py-4 space-y-4">
-			{comments.map(({ content, date, id }) => <AdvancedDialog
+			{comments.map(({ content, date, id, authorName }) => <AdvancedDialog
 				key={id}
-				author="dsa"
+				author={authorName}
 				date={date}
 			>
 				<MarkdownViewer className="p-5 w-full" md={content}/>

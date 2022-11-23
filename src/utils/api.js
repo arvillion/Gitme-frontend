@@ -187,6 +187,9 @@ export function getIssueCommentsByIssueTrueId({ token, issueTrueId }) {
 export function createComment({ token, content, issueTrueId }) {
 	return fcJSONAuth(API_URL + '/comment/add', token, {
 		method: 'POST',
+		headers: {
+			'content-type': 'application/json'
+		},
 		body: JSON.stringify({
 			content,
 			issueID: issueTrueId,
