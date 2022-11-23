@@ -164,6 +164,26 @@ export function getStarredRepos({ token }) {
 	return fcJSONAuth(API_URL + '/repo/getRepoByMyStar', token)
 }
 
+export function starRepo({ token, repoId }) {
+	return fcJSONAuth(API_URL + '/star/addStar?repoID=' + repoId, token, {
+		method: 'POST',
+	})
+}
+export function undoStarRepo({ token, repoId }) {
+	return fcJSONAuth(API_URL + '/star/deleteStarsByRepo?repoID=' + repoId, token, {
+		method: 'DELETE',
+	})
+}
+
+export function getIssueInfo({ token, issueId, repoId }) {
+	return fcJSONAuth(API_URL + '/issue/findByRepoIDAndIdWithinRepo?'
+		+ new URLSearchParams({ issueId, repoID: repoId }), token)
+}
+
+export function getIssueCommentsByIssueTrueId({ token, issueTrueId }) {
+	return fcJSONAuth(API_URL + '/comment/getCommentByIssueID?issueID=' + issueTrueId, token)
+}
+
 // export function downloadZIP({ repoId, branch }) {
 // 	return fcJS
 // }

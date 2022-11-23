@@ -37,7 +37,7 @@ export default function UserPage({
 }) {
 	const [repoType, setRepoType] = useState(repoTypeOptions[0])
 	const [sortBy, setSortBy] = useState(sortByOptions[0])
-	const { profile, repos } = useLoaderData()
+	const { profile, repos, starredRepos } = useLoaderData()
 	const popularRepos = repos.sort(compareFn).slice(0, 6)
 
 	const [modalShow, setModalShow] = useState(false)
@@ -102,7 +102,7 @@ export default function UserPage({
 							<Tab>
 								<FontAwesomeIcon icon={faStar}/>
 								<span className="ml-3 mr-2 text-sm font-medium text-gray-900">Stars</span>
-								<Badge type="gray full">10</Badge>
+								<Badge type="gray full">{starredRepos.length}</Badge>
 							</Tab>
 						</Tab.List>
 						<Tab.Panels>
@@ -188,7 +188,7 @@ export default function UserPage({
 								
 								{/* repo list */}
 								<div className="space-y-4 divide-y divide-gray-200 border-t border-gray-200 mt-6">
-									{repos.map(({ name, state, desc, star, fork, issue, pr, lastUpdate, starOwn }) => (
+									{repos.map(({ id, name, state, desc, star, fork, issue, pr, lastUpdate, starOwn }) => (
 										<RepoSummary 
 											key={name}
 											name={name}
@@ -201,6 +201,7 @@ export default function UserPage({
 											lastUpdated={lastUpdate}
 											pulls={pr}
 											to={`/${profile.name}/${name}`}
+											repoId={id}
 										/>	
 									))}
 
@@ -208,29 +209,22 @@ export default function UserPage({
 							</Tab.Panel>
 							<Tab.Panel>
 								<div className="space-y-4 divide-y divide-gray-200 border-t border-gray-200 mt-6">
-
-									<RepoSummary 
-										name="react-router"
-										type="private"
-										desc="Declarative routing for React"
-										stars={2489}
-										isStarred={true}
-										forks={12990}
-										issues={20}
-										lastUpdated={dayjs('2022-04-13 19:18')}
-										pulls={9455}
-									/>	
-
-									<RepoSummary 
-										name="gym"
-										type="public"
-										desc="A toolkit for developing and comparing reinforcement learning algorithms."
-										stars={2489}
-										forks={12990}
-										issues={20}
-										lastUpdated={dayjs('2018-04-13 19:18')}
-										pulls={9455}
-									/>
+									{starredRepos.map(({ id, name, state, desc, star, fork, issue, pr, lastUpdate, starOwn, creatorName }) => (
+										<RepoSummary 
+											key={name}
+											name={name}
+											type={state}
+											desc={desc}
+											stars={star}
+											isStarred={starOwn}
+											forks={fork}
+											issues={issue}
+											lastUpdated={lastUpdate}
+											pulls={pr}
+											to={`/${creatorName}/${name}`}
+											repoId={id}
+										/>	
+									))}
 
 								</div>
 							</Tab.Panel>

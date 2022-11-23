@@ -13,7 +13,7 @@ import RepoIssues from "../containers/RepoIssues";
 import SigninPage from "../containers/SigninPage";
 import SignupPage from "../containers/SignupPage";
 import UserPage from "../containers/UserPage";
-import repoInfoLoader, { contentLoader, repoAction } from "./repo";
+import repoInfoLoader, { contentLoader, repoAction, starAction } from "./repo";
 import { editProfileAction, userDataLoader } from "./user";
 import DefaultBranchRedirect from "../containers/DefaultBranchRedirect";
 import NewIssue from "../containers/NewIssue";
@@ -118,6 +118,10 @@ const router = createBrowserRouter([
 	{
 		path: '_repo',
 		action: repoAction,
+	},
+	{
+		path: '_repo.star',
+		action: starAction,
 	}
 ])
 

@@ -240,8 +240,8 @@ export default function RepoCode() {
 				<p className="font-light">{repoInfo.desc}</p>
 				<div className="flex flex-col space-y-3 text-gray-600">
 					{/* <a href="reactrouter.com"><FontAwesomeIcon icon={faPaperclip}/><span className="px-2 font-bold">reactrouter.com</span></a> */}
-					<div><FontAwesomeIcon icon={faStar}/><strong className="px-2">{repoInfo.star}</strong>stars</div>
-					<div><FontAwesomeIcon icon={faCodeFork}/><strong className="px-2">{repoInfo.fork}</strong>forks</div>
+					<div><FontAwesomeIcon icon={faStar} fixedWidth/><strong className="px-2">{repoInfo.star}</strong>stars</div>
+					<div><FontAwesomeIcon icon={faCodeFork} fixedWidth/><strong className="px-2">{repoInfo.fork}</strong>forks</div>
 				</div>
 			</div>
 			<div className="space-y-4 py-4">

@@ -6,11 +6,13 @@ import Button from "../Button";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Link } from "react-router-dom";
+import StarButton from "../StarButton";
 
 
 dayjs.extend(relativeTime)
 
 export default function RepoSummary({
+	repoId,
 	name,
 	type,
 	desc,
@@ -34,10 +36,10 @@ export default function RepoSummary({
 				<p className="text-sm text-gray-600 max-w-4xl pr-4">{desc}</p>
 			</div>
 
-			<Button type="normal" className="shrink-0">
-				<FontAwesomeIcon icon={isStarred ? faStar : faHollowStar} className={isStarred ? "mr-3 text-yellow-500" : "mr-3"}/>
-				{isStarred ? "Starred" : "Star"}
-			</Button>
+	
+			<div className="shrink-0">
+				<StarButton isStarred={isStarred} repoId={repoId}/>
+			</div>
 
 		</div>
 

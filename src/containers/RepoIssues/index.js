@@ -11,14 +11,21 @@ import { getIssues } from "../../utils/api";
 export default function RepoIssues() {
 	const { repoId } = useRouteLoaderData("repoRoot")
 
-	const [issues, setIssues] = useState([])
+	const [isOpenView, setIsOpenView] = useState(true)
+	const [openedIssues, setOpenedIssues] = useState([])
+	const [closedIssues, setClosedIssues] = useState([])
 
 	useEffect(() => {
 		getIssues({
 			repoId,
 			token: localStorage.getItem('token')
-		}).then(({ data }) => setIssues(data))
+		}).then(({ data }) => {
+			setOpenedIssues(data.filter(d => d.state))
+			setClosedIssues(data.filter(d => !d.state))
+		})
 	}, [repoId])
+	
+	
 
 	return <>
 		<div className="mb-4 flex flex-row-reverse">
@@ -26,15 +33,15 @@ export default function RepoIssues() {
 		</div>
 		<div className="border border-gray-300 rounded overflow-hidden divide-y divide-gray-300">
 			<div className="p-4 bg-gray-100 flex items-center text-sm">
-				<strong>
-					<FontAwesomeIcon icon={faCircleDot}  className="mr-1.5" size="lg"/> 20 Open
-				</strong>
-				<span className="text-gray-500 ml-6">
-					<FontAwesomeIcon icon={faCheck} className="mr-1.5" size="lg"/> 207 Closed
-				</span>
+				<a className={`cursor-pointer font-bold ${isOpenView ? 'font-bold' : 'text-gray-500'}`} onClick={() => setIsOpenView(true)}>
+					<FontAwesomeIcon icon={faCircleDot}  className="mr-1.5" size="lg"/> {openedIssues.length} Open
+				</a>
+				<a className={`cursor-pointer ml-6 ${isOpenView ? 'text-gray-500' : 'font-bold'}`} onClick={() => setIsOpenView(false)}>
+					<FontAwesomeIcon icon={faCheck} className="mr-1.5" size="lg"/> {closedIssues.length} Closed
+				</a>
 			</div>
 			
-				{issues.map(({
+				{(isOpenView ? openedIssues : closedIssues).map(({
 					title,
 					idWithinRepo: id,
 					commentNum,
@@ -53,7 +60,7 @@ export default function RepoIssues() {
 					
 					<div className="flex flex-col justify-between">
 						<div>
-							<Link to={id} className="font-semibold text-lg hover:text-blue-600">
+							<Link to={(id).toString()} className="font-semibold text-lg hover:text-blue-600">
 								{title}
 							</Link>
 						</div>

@@ -16,11 +16,10 @@ export async function userDataLoader({ params }) {
 		{ data: repos },
 		{ data: starredRepos },
 	] = await Promise.all([ infoPromise, reposPromise, getStarredRepos({ token }) ])
-
-	console.log(starredRepos)	
 	return { 
 		profile,
-		repos
+		repos,
+		starredRepos,
 	}
 }
 

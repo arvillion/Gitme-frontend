@@ -5,6 +5,7 @@ import Alert from "../../components/Alert";
 import Badge from "../../components/Badge";
 import Button from "../../components/Button";
 import RepoMenu from "../../components/RepoMenu";
+import StarButton from "../../components/StarButton";
 
 export default function RepoLayout() {
 	const { userName, repoName } = useParams()
@@ -22,8 +23,9 @@ export default function RepoLayout() {
 				<Link className="text-blue-600 px-2.5 hover:underline font-bold" to={baseUrl}>{repoName}</Link>
 				<Badge>{isPublic ? 'Public' : 'Private'}</Badge>
 			</h3>
+			
 			<div className="space-x-2 hidden md:block">
-				<Button><FontAwesomeIcon icon={faStar}/><span className="px-1.5">Star</span><Badge type="gray full">{repoInfo.star}</Badge></Button>
+				<StarButton starNum={repoInfo.star} repoId={repoInfo.id} isStarred={repoInfo.starOwn === 1}></StarButton>
 				<Button><FontAwesomeIcon icon={faCodeFork}/><span className="px-1.5">Fork</span><Badge type="gray full">{repoInfo.fork}</Badge></Button>	
 			</div>
 		</div>
@@ -42,7 +44,7 @@ export default function RepoLayout() {
 			</div>
 
 			<div className="flex space-x-2">
-				<Button className="flex-1"><FontAwesomeIcon icon={faStar}/><span className="px-2">Star</span></Button>
+				<StarButton starNum={repoInfo.star} repoId={repoInfo.id} className="flex-1" isStarred={repoInfo.starOwn === 1}></StarButton>
 				<Button className="flex-1"><FontAwesomeIcon icon={faCodeFork}/><span className="px-2">Fork</span></Button>
 			</div>
 		</div>

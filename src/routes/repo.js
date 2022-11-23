@@ -1,4 +1,4 @@
-import { createRepository, getAllBranches, getCloneUrl, getContent, getRepoIdByUserNameAndRepoName, getRepoInfo } from "../utils/api"
+import { createRepository, getAllBranches, getCloneUrl, getContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo } from "../utils/api"
 
 export default async function repoInfoLoader({ params }) {
 	const { userName, repoName } = params
@@ -30,5 +30,26 @@ export async function repoAction({ params, request }) {
 		}
 	} else {
 		return { err: 'Method not supported' }
+	}
+}
+
+
+export async function starAction({ params, request }) {
+	const token = localStorage.getItem('token')
+
+	const formData = await request.formData()
+	const isStarred = formData.get('isStarred')
+	const repoId = formData.get('repoId')
+
+	const valid = repoId && isStarred
+	if (!valid) {
+		throw new Error('Missing parameters')
+	}
+
+	if (isStarred === "1") {
+		// undo star
+		return undoStarRepo({ token, repoId })
+	} else {
+		return starRepo({ token, repoId })
 	}
 }
