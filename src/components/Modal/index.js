@@ -71,7 +71,7 @@ export default function Modal({
 					ref={panelRef}
 				>
 					<div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-						<div className="mt-3 text-center sm:mt-0 sm:text-left">
+						<div className="mt-3 sm:mt-0">
 							<h3 className="text-xl font-medium leading-6 text-gray-900" id="modal-title">{title}</h3>
 							<div className="mt-4">
 								{children}

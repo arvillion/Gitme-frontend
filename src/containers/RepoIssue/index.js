@@ -1,11 +1,5 @@
 import { faCheckCircle, faCircleDot } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { materialLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import avatar from '../../images/avatar.png'
-import { mdRaw } from "./testdata";
 import './style.css'
 import MarkdownViewer from "../../components/MarkdownViewer";
 import AdvancedDialog from "../../components/AdvancedDialog";

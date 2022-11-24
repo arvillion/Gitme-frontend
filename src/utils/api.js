@@ -225,6 +225,10 @@ export function updateRepoDesc({ desc, repoId, token }) {
 	})
 }
 
+export function getFileContent({ commitId, filePath, repoId, token }) {
+	return fcJSONAuth(API_URL + '/repo/view/getFileByPath?'
+		+ new URLSearchParams({ filePath, branchName: commitId, repoID: repoId }), token)
+}
 
 // export function downloadZIP({ repoId, branch }) {
 // 	return fcJS

@@ -4,7 +4,7 @@ import { trim, join } from "../../utils/path"
 
 export default function Breadcrumb({ repoName, dir, branchBaseUrl, fileName }) {
 	dir = trim(dir)
-	const pathComponents = dir.split('/')
+	const pathComponents = dir ? dir.split('/') : []
 	const paths = pathComponents.map((v, idx, arr) => idx ? arr[idx-1]+'/'+v : v)
 	return <nav className="w-full">
 		<ol className="list-reset flex">

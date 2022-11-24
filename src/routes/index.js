@@ -2,7 +2,6 @@ import { createBrowserRouter, Navigate, redirect } from "react-router-dom";
 import App from "../App";
 import RepoLayout from "../containers/RepoLayout";
 import ProtectedResource from "../components/ProtectedResource";
-import CodeView from "../containers/CodeView";
 import GeneralError from "../containers/GeneralError";
 import Logout from "../containers/Logout";
 import RepoCode from "../containers/RepoCode";
@@ -13,7 +12,7 @@ import RepoIssues from "../containers/RepoIssues";
 import SigninPage from "../containers/SigninPage";
 import SignupPage from "../containers/SignupPage";
 import UserPage from "../containers/UserPage";
-import repoInfoLoader, { contentLoader, deleteRepoAction, repoAction, starAction } from "./repo";
+import repoInfoLoader, { contentLoader, deleteRepoAction, fileContentLoader, repoAction, starAction } from "./repo";
 import { editProfileAction, userDataLoader } from "./user";
 import DefaultBranchRedirect from "../containers/DefaultBranchRedirect";
 import NewIssue from "../containers/NewIssue";
@@ -56,10 +55,12 @@ const router = createBrowserRouter([
 						children: [
 							{
 								index: true,
+								loader: fileContentLoader,
 								element: <RepoCode/>
 							},
 							{
 								path: '*',
+								loader: fileContentLoader,
 								element: <RepoCode/>
 							}
 						]

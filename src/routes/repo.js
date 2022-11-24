@@ -1,5 +1,6 @@
 import { redirect } from "react-router-dom"
-import { createRepository, deleteRepository, getAllBranches, getCloneUrl, getContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo } from "../utils/api"
+import { createRepository, deleteRepository, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo } from "../utils/api"
+import * as path from "../utils/path"
 
 export default async function repoInfoLoader({ params }) {
 	const { userName, repoName } = params
@@ -65,4 +66,29 @@ export async function deleteRepoAction({ request }) {
 	} catch (err) {
 		return { err: err.message, type: 'delete' }
 	}
+}
+
+export async function fileContentLoader({ request, params }) {
+	const token = localStorage.getItem('token')
+	const searchParams = new URLSearchParams(new URL(request.url).search)
+	const fileName = searchParams.get('l')
+	const dir = params["*"]
+	const { branchId, userName, repoName } = params
+	if (fileName) {
+		const { data: repoId } = await getRepoIdByUserNameAndRepoName({
+			userName, repoName, token
+		})
+		try {
+			const { data: file } = await getFileContent({
+				commitId: branchId,
+				token,
+				repoId,
+				filePath: path.join(dir, fileName)
+			})
+			return { file }
+		} catch (err) {
+			return { file: { err: err.message } }
+		}
+	}
+	
 }
