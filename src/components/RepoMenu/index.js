@@ -40,7 +40,8 @@ export default function RepoMenu({children}) {
 	)
 }
 
-RepoMenu.Item = ({children, to}) => {
+RepoMenu.Item = ({children, to, display = true}) => {
+	if (!display) return null
 	return (
 	<pathnameContext.Consumer>
 		{pathname => <Menu.Item as="div" className="group sm:py-4 relative sm:px-6 outline-none cursor-pointer whitespace-nowrap py-2.5 px-4"

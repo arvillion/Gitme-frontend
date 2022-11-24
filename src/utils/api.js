@@ -237,6 +237,10 @@ export function forkRepo({ desc, newRepoName, repoId, token }) {
 		})
 }
 
+export async function getPullRequests({ repoId, token }) {
+	return fcJSONAuth(API_URL + '/PR/view/getAllPR?repoID=' + repoId, token)
+}
+
 // export function downloadZIP({ repoId, branch }) {
 // 	return fcJS
 // }

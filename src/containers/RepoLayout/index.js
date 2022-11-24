@@ -13,6 +13,9 @@ export default function RepoLayout() {
 	const { repoInfo, branches } = useLoaderData()
 	const isPublic = repoInfo.state.toUpperCase() == "PUBLIC"
 	const location = useLocation()
+
+	const isMyRepo = (userName === localStorage.getItem('userName'))
+
 	return <>
 
 	<div className="space-y-4 mb-4">
@@ -68,7 +71,7 @@ export default function RepoLayout() {
 			<FontAwesomeIcon icon={faCodeCommit} fixedWidth/>
 			<span className="ml-3">Commits</span>
 		</RepoMenu.Item>
-		<RepoMenu.Item to={`${baseUrl}/settings`}>
+		<RepoMenu.Item to={`${baseUrl}/settings`} display={isMyRepo}>
 			<FontAwesomeIcon icon={faGear} fixedWidth/>
 			<span className="ml-3">Settings</span>
 		</RepoMenu.Item>

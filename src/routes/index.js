@@ -19,6 +19,8 @@ import NewIssue from "../containers/NewIssue";
 import { createIssueAction, issueAction, issueLoader, issueStateAction, newCommentAction } from "./issues";
 import Settings from "../containers/Settings";
 import Fork from "../containers/Fork";
+import RepoPulls from "../containers/RepoPulls";
+import { prsLoader } from "./pr";
 
 const router = createBrowserRouter([
 	{
@@ -88,7 +90,7 @@ const router = createBrowserRouter([
 						path: 'issues',
 						children: [
 							{
-								path: '',
+								index: true,
 								element: <RepoIssues />
 							},
 							{
@@ -101,6 +103,16 @@ const router = createBrowserRouter([
 								path: 'new',
 								action: createIssueAction,
 								element: <NewIssue />
+							}
+						]
+					},
+					{
+						path: 'pulls',
+						children: [
+							{
+								index: true,
+								element: <RepoPulls/>,
+								loader: prsLoader,
 							}
 						]
 					},
