@@ -1,6 +1,6 @@
-import { faCircleDot, faCode, faCodeBranch, faCodeFork, faCodePullRequest, faPaperclip, faStar, faWarehouse, faCodeCommit } from "@fortawesome/free-solid-svg-icons";
+import { faCircleDot, faCode, faCodeBranch, faCodeFork, faCodePullRequest, faPaperclip, faStar, faWarehouse, faCodeCommit, faGear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, Outlet, useLoaderData, useParams } from "react-router-dom";
+import { Link, Outlet, useLoaderData, useLocation, useParams } from "react-router-dom";
 import Alert from "../../components/Alert";
 import Badge from "../../components/Badge";
 import Button from "../../components/Button";
@@ -12,6 +12,7 @@ export default function RepoLayout() {
 	const baseUrl = `/${userName}/${repoName}`
 	const { repoInfo, branches } = useLoaderData()
 	const isPublic = repoInfo.state.toUpperCase() == "PUBLIC"
+	const location = useLocation()
 	return <>
 
 	<div className="space-y-4 mb-4">
@@ -67,13 +68,13 @@ export default function RepoLayout() {
 			<FontAwesomeIcon icon={faCodeCommit} fixedWidth/>
 			<span className="ml-3">Commits</span>
 		</RepoMenu.Item>
-		<RepoMenu.Item to={`${baseUrl}/branches`}>
-			<FontAwesomeIcon icon={faCodeBranch} fixedWidth/>
-			<span className="ml-3">Branches</span>
+		<RepoMenu.Item to={`${baseUrl}/settings`}>
+			<FontAwesomeIcon icon={faGear} fixedWidth/>
+			<span className="ml-3">Settings</span>
 		</RepoMenu.Item>
 	</RepoMenu>
 	<div className="pt-4">
-		{branches.length ? <Outlet/> : <Alert variant="red">No branches</Alert>}
+		{(branches.length || location.pathname === `/${userName}/${repoName}/settings`) ? <Outlet/> : <Alert variant="red">No branches</Alert>}
 	</div>
 	</>
 }

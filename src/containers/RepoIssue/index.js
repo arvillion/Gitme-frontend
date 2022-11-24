@@ -101,8 +101,13 @@ export default function RepoIssue() {
 			>
 				<MarkdownViewer className="p-5 w-full" md={content}/>
 			</AdvancedDialog>)}
-			
+			<Form method="patch" id="formState">
+				<input type="hidden" name="repoId" value={issueInfo.repoID}/>
+				<input type="hidden" name="issueId" value={issueInfo.idWithinRepo}/>
+				<input type="hidden" name="isOpen" value={issueInfo.state}/>
+			</Form>
 			<Dialog>
+				{issueInfo.state ?
 				<Tabb.Group>
 					<Tabb.List className="bg-gray-100">
 						<Tabb>Write</Tabb>
@@ -110,20 +115,20 @@ export default function RepoIssue() {
 					</Tabb.List>
 					<Tabb.Panels>
 						<Tabb.Panel>
-							<Form method="post" className="space-y-2">
-								{(err && navigation.state === 'idle') && <Alert variant="red">{err}</Alert>}
+							{(err && navigation.state === 'idle') && <Alert variant="red">{err}</Alert>}
+							<Form method="post" className="space-y-2" id="formCont">
 								<Textarea style={{height: '200px'}} placeholder="Styling with Markdown is supported"
 									onChange={(e) => setMd(e.target.value)}
 									value={md}
 									name="content"
 								/>
 								<input type="hidden" name="issueTrueId" value={issueInfo.id}/>
-								<div className="flex justify-end space-x-2">
-									<Button variant="purple" type="button">Close issue</Button>
-									<Button variant="blue" type="submit">Comment</Button>
-								</div>
 							</Form>
-						
+							<div className="flex justify-end space-x-2 mt-2">
+								<Button variant="purple" type="submit" form="formState">Close issue</Button>
+								
+								<Button variant="blue" type="submit" form="formCont">Comment</Button>
+							</div>
 						</Tabb.Panel>
 						<Tabb.Panel>
 							<div className="px-3 py-1.5">
@@ -131,7 +136,14 @@ export default function RepoIssue() {
 							</div>
 						</Tabb.Panel>
 					</Tabb.Panels>
-				</Tabb.Group>
+				</Tabb.Group> :
+				<div className="p-2 space-y-2">
+					<Alert variant="yellow">This issue is closed.</Alert>
+					<div className="text-right">
+						<Button variant="green" type="submit" form="formState">Reopen issue</Button>
+					</div>
+				</div>
+				}
 			</Dialog>
 
 		</div>

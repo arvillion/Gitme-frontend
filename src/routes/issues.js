@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom"
-import { createComment, createIssue, getIssueCommentsByIssueTrueId, getIssueInfo, getRepoIdByUserNameAndRepoName, getRepoInfo } from "../utils/api"
+import { closeIssue, createComment, createIssue, getIssueCommentsByIssueTrueId, getIssueInfo, getRepoIdByUserNameAndRepoName, getRepoInfo, openIssue } from "../utils/api"
 
 export async function createIssueAction({ params, request }) {
 	const token = localStorage.getItem('token')
@@ -13,7 +13,6 @@ export async function createIssueAction({ params, request }) {
 		const { data: issueId } = await createIssue({ repoId, body, title, token })
 		return redirect(`/${userName}/${repoName}/issues/${issueId}`)
 	} catch (err) {
-		console.log(err)
 		return { err: err.message }
 	}
 }
@@ -26,7 +25,6 @@ export async function issueLoader({ params, request }) {
 
 	const issueTrueId = issueInfo.id
 	const { data: comments } = await getIssueCommentsByIssueTrueId({ token, issueTrueId })
-	console.log(issueInfo, comments)
 	return { issueInfo, comments }
 }
 
@@ -43,5 +41,21 @@ export async function issueAction({ params, request }) {
 		} catch (err) {
 			return { err: err.message }
 		}
+	} else if (method === 'PATCH') {
+		const issueId = formData.get('issueId')
+		const repoId = formData.get('repoId')
+		const isOpen = formData.get('isOpen') === "true"
+		try {
+			if (isOpen) await closeIssue({ token, repoId, issueId })
+			else openIssue({ token, repoId, issueId })
+		} catch (err) {
+			return { err: err.message }
+		}
 	}
 }
+
+// export async function issueStateAction({ params, request }) {
+// 	const token = localStorage.getItem('token')
+// 	const formData = await request.formData()
+	
+// }

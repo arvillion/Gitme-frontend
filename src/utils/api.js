@@ -196,6 +196,36 @@ export function createComment({ token, content, issueTrueId }) {
 		})
 	})
 }
+
+
+export function openIssue({ token, repoId, issueId }) {
+	return fcJSONAuth(API_URL + '/issue/openIssue?' 
+		+ new URLSearchParams({ idWithin: issueId, repoId }), token, {
+			method: 'POST'
+		})
+}
+
+export function closeIssue({ token, repoId, issueId }) {
+	return fcJSONAuth(API_URL + '/issue/closeIssue?' 
+		+ new URLSearchParams({ idWithin: issueId, repoId }), token, {
+			method: 'POST'
+		})
+}
+
+export function deleteRepository({ repoId, token }) {
+	return fcJSONAuth(API_URL + '/repo/edit/deleteRepo?repoID=' + repoId, token, {
+		method: 'POST'
+	})
+}
+export function updateRepoDesc({ desc, repoId, token }) {
+	return fcJSONAuth(API_URL + '/repo/edit/updateDescriById?'
+		+ new URLSearchParams({ descri: desc, id: repoId })
+	, token, {
+		method: 'POST'
+	})
+}
+
+
 // export function downloadZIP({ repoId, branch }) {
 // 	return fcJS
 // }

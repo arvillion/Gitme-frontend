@@ -13,11 +13,12 @@ import RepoIssues from "../containers/RepoIssues";
 import SigninPage from "../containers/SigninPage";
 import SignupPage from "../containers/SignupPage";
 import UserPage from "../containers/UserPage";
-import repoInfoLoader, { contentLoader, repoAction, starAction } from "./repo";
+import repoInfoLoader, { contentLoader, deleteRepoAction, repoAction, starAction } from "./repo";
 import { editProfileAction, userDataLoader } from "./user";
 import DefaultBranchRedirect from "../containers/DefaultBranchRedirect";
 import NewIssue from "../containers/NewIssue";
-import { createIssueAction, issueAction, issueLoader, newCommentAction } from "./issues";
+import { createIssueAction, issueAction, issueLoader, issueStateAction, newCommentAction } from "./issues";
+import Settings from "../containers/Settings";
 
 const router = createBrowserRouter([
 	{
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
 								element: <NewIssue />
 							}
 						]
+					},
+					{
+						path: 'settings',
+						element: <Settings/>
 					}
 				]
 			}
@@ -123,7 +128,15 @@ const router = createBrowserRouter([
 	{
 		path: '_repo.star',
 		action: starAction,
+	},
+	{
+		path: '_repo.delete',
+		action: deleteRepoAction,
 	}
+	// {
+	// 	path: '_issue.state',
+	// 	action: issueStateAction,
+	// }
 ])
 
 export default router

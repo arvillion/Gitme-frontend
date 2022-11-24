@@ -1,4 +1,5 @@
-import { createRepository, getAllBranches, getCloneUrl, getContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo } from "../utils/api"
+import { redirect } from "react-router-dom"
+import { createRepository, deleteRepository, getAllBranches, getCloneUrl, getContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo } from "../utils/api"
 
 export default async function repoInfoLoader({ params }) {
 	const { userName, repoName } = params
@@ -51,5 +52,17 @@ export async function starAction({ params, request }) {
 		return undoStarRepo({ token, repoId })
 	} else {
 		return starRepo({ token, repoId })
+	}
+}
+
+export async function deleteRepoAction({ request }) {
+	const formData = await request.formData()
+	const repoId = formData.get('repoId')
+	const token = localStorage.getItem('token')
+	try {
+		await deleteRepository({ repoId, token })
+		return redirect('/')
+	} catch (err) {
+		return { err: err.message, type: 'delete' }
 	}
 }

@@ -7,6 +7,7 @@ export default function Modal({
 	title,
 	children,
 	showSubmitBtn = true,
+	showCloseBtn = true,
 	handleSubmit,
 }) {
 	const backdropRef = useRef(null)
@@ -79,7 +80,7 @@ export default function Modal({
 					</div>
 					<div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 sm:space-x-3 sm:space-x-reverse space-y-2 sm:space-y-0">
 						{showSubmitBtn && <Button variant="blue" className="w-full sm:w-auto" onClick={handleSubmit}>Submit</Button>}
-						<Button variant="light" className="w-full sm:w-auto" onClick={handleClose}>Close</Button>
+						{showCloseBtn && <Button variant="light" className="w-full sm:w-auto" onClick={handleClose}>Close</Button>}
 					</div>
 				</div>
 			</div>
