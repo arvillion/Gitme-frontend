@@ -12,12 +12,13 @@ import RepoIssues from "../containers/RepoIssues";
 import SigninPage from "../containers/SigninPage";
 import SignupPage from "../containers/SignupPage";
 import UserPage from "../containers/UserPage";
-import repoInfoLoader, { contentLoader, deleteRepoAction, fileContentLoader, repoAction, starAction } from "./repo";
+import repoInfoLoader, { contentLoader, deleteRepoAction, fileContentLoader, forkAction, repoAction, starAction } from "./repo";
 import { editProfileAction, userDataLoader } from "./user";
 import DefaultBranchRedirect from "../containers/DefaultBranchRedirect";
 import NewIssue from "../containers/NewIssue";
 import { createIssueAction, issueAction, issueLoader, issueStateAction, newCommentAction } from "./issues";
 import Settings from "../containers/Settings";
+import Fork from "../containers/Fork";
 
 const router = createBrowserRouter([
 	{
@@ -49,6 +50,11 @@ const router = createBrowserRouter([
 					{
 						path: 'source',
 						element: <DefaultBranchRedirect/>,
+					},
+					{
+						path: 'fork',
+						element: <Fork/>,
+						action: forkAction,
 					},
 					{
 						path: 'source/:branchId',

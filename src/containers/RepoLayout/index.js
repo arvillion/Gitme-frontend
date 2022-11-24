@@ -27,7 +27,7 @@ export default function RepoLayout() {
 			
 			<div className="space-x-2 hidden md:block">
 				<StarButton starNum={repoInfo.star} repoId={repoInfo.id} isStarred={repoInfo.starOwn === 1}></StarButton>
-				<Button><FontAwesomeIcon icon={faCodeFork}/><span className="px-1.5">Fork</span><Badge type="gray full">{repoInfo.fork}</Badge></Button>	
+				<Button as="a" to={`/${userName}/${repoName}/fork`}><FontAwesomeIcon icon={faCodeFork}/><span className="px-1.5">Fork</span><Badge type="gray full">{repoInfo.fork}</Badge></Button>	
 			</div>
 		</div>
 		<div className="space-y-4 md:hidden">
@@ -46,7 +46,7 @@ export default function RepoLayout() {
 
 			<div className="flex space-x-2">
 				<StarButton starNum={repoInfo.star} repoId={repoInfo.id} className="flex-1" isStarred={repoInfo.starOwn === 1}></StarButton>
-				<Button className="flex-1"><FontAwesomeIcon icon={faCodeFork}/><span className="px-2">Fork</span></Button>
+				<Button className="flex-1" as="a" to={`/${userName}/${repoName}/fork`}><FontAwesomeIcon icon={faCodeFork}/><span className="px-2">Fork</span></Button>
 			</div>
 		</div>
 	</div>

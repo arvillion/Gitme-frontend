@@ -38,8 +38,8 @@ export function loginByEmail({
 		}
 	})
 		.then(data => {
-			const { tokenValue, tokenTimeout } = data.data
-			return { email, tokenTimeout, tokenValue }
+			const { tokenValue, tokenTimeout, userName } = data.data
+			return { email, tokenTimeout, tokenValue, userName }
 		})
 }
 
@@ -228,6 +228,13 @@ export function updateRepoDesc({ desc, repoId, token }) {
 export function getFileContent({ commitId, filePath, repoId, token }) {
 	return fcJSONAuth(API_URL + '/repo/view/getFileByPath?'
 		+ new URLSearchParams({ filePath, branchName: commitId, repoID: repoId }), token)
+}
+
+export function forkRepo({ desc, newRepoName, repoId, token }) {
+	return fcJSONAuth(API_URL + '/fork/edit/fork?'
+		+ new URLSearchParams({ desc, rename: newRepoName, repoID: repoId }), token, {
+			method: 'POST'
+		})
 }
 
 // export function downloadZIP({ repoId, branch }) {

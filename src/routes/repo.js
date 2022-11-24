@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom"
-import { createRepository, deleteRepository, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo } from "../utils/api"
+import { createRepository, deleteRepository, forkRepo, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo } from "../utils/api"
 import * as path from "../utils/path"
 
 export default async function repoInfoLoader({ params }) {
@@ -91,4 +91,19 @@ export async function fileContentLoader({ request, params }) {
 		}
 	}
 	
+}
+
+export async function forkAction({ request, params }) {
+	const formData = await request.formData()
+	const token = localStorage.getItem('token')
+	const repoId = formData.get('repoId')
+	const newRepoName = formData.get('newRepoName')
+	const desc = formData.get('desc')
+	const myName = localStorage.getItem('userName')
+	try {
+		await forkRepo({ desc, newRepoName, repoId, token })
+		return redirect(`/${myName}/${newRepoName}`)
+	} catch (err) {
+		return { err: err.message }
+	}
 }
