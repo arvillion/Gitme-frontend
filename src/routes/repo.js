@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom"
-import { createRepository, deleteRepository, forkRepo, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo, uploadFile } from "../utils/api"
+import { createRepository, deleteFile, deleteRepository, forkRepo, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo, uploadFile } from "../utils/api"
 import * as path from "../utils/path"
 
 export default async function repoInfoLoader({ params }) {
@@ -119,9 +119,32 @@ export async function uploadAction({ request, params }) {
 	const file = formData.get('file')
 	const commitMsg = formData.get('commitMsg')
 	try {
-		console.log(dir)
 		await uploadFile({ token, branchId, commitMsg, repoId, dir, file })
 		return redirect(`/${path.join(userName, repoName, 'source', branchId, dir)}`)
+	} catch (err) {
+		return { err: err.message }
+	}
+}
+
+export async function deleteAction({ request, params }) {
+	const token = localStorage.getItem('token')
+	const formData = await request.formData()
+	const repoId = formData.get('repoId')
+	const dir = formData.get('dir')
+	const {branchId, userName, repoName} = params	
+	const commitMsg = formData.get('commitMsg')
+	const searchParams = new URLSearchParams(new URL(request.url).search)
+	const fileName = searchParams.get('l')
+
+	try {
+		await deleteFile({
+			token,
+			branchId,
+			commitMsg,
+			repoId,
+			path: path.join(dir, fileName)
+		})
+		return redirect(`/${path.join(userName, repoName, 'source', branchId, dir)}`)	
 	} catch (err) {
 		return { err: err.message }
 	}

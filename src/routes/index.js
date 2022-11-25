@@ -12,7 +12,7 @@ import RepoIssues from "../containers/RepoIssues";
 import SigninPage from "../containers/SigninPage";
 import SignupPage from "../containers/SignupPage";
 import UserPage from "../containers/UserPage";
-import repoInfoLoader, { contentLoader, deleteRepoAction, fileContentLoader, forkAction, repoAction, starAction, uploadAction } from "./repo";
+import repoInfoLoader, { contentLoader, deleteAction, deleteRepoAction, fileContentLoader, forkAction, repoAction, starAction, uploadAction } from "./repo";
 import { editProfileAction, userDataLoader } from "./user";
 import DefaultBranchRedirect from "../containers/DefaultBranchRedirect";
 import NewIssue from "../containers/NewIssue";
@@ -22,6 +22,7 @@ import Fork from "../containers/Fork";
 import RepoPulls from "../containers/RepoPulls";
 import { prsLoader } from "./pr";
 import UploadFile from "../containers/UploadFile";
+import DeleteFile from "../containers/DeleteFile";
 
 const router = createBrowserRouter([
 	{
@@ -64,6 +65,11 @@ const router = createBrowserRouter([
 						path: 'upload/:branchId/*',
 						element: <UploadFile/>,
 						action: uploadAction,
+					},
+					{
+						path: 'delete/:branchId/*',
+						element: <DeleteFile/>,
+						action: deleteAction,
 					},
 					{
 						path: 'source/:branchId',

@@ -35,7 +35,7 @@ export default function RepoCode() {
 	const params = useParams()
 	const { branchId, repoName, userName } = params
 	const [ searchParams, setSearchParams ] = useSearchParams()
-	const { repoId, repoInfo, branches, cloneUrl } = useRouteLoaderData("repoRoot")
+	const { repoId, repoInfo, branches, cloneUrl, isAC } = useRouteLoaderData("repoRoot")
 
 	const loaderData = useLoaderData()
 	const file = loaderData?.file
@@ -109,7 +109,7 @@ export default function RepoCode() {
 			
 		</div>
 		<div className="flex items-center space-x-2">
-			<Button as="a" to={`/${path.join(userName, repoName, 'upload', branchId, dir)}`}>Upload file</Button>
+			{isAC && <Button as="a" to={`/${path.join(userName, repoName, 'upload', branchId, dir)}`}>Upload file</Button>}
 			<Popover className="relative">
 				<Popover.Button className="hidden md:block bg-green-500 text-white hover:bg-green-600 active:bg-green-700 inline-flex items-center px-5 py-2 rounded-lg text-sm font-medium">
 					<span className="mr-2">Clone</span>
@@ -210,6 +210,11 @@ export default function RepoCode() {
 	<div className="flex space-x-6 items-center">
 		<BranchSelector repoName={repoName} userName={userName} dir={dir} branches={branches} currentBranchId={branchId}/> 
 		<Breadcrumb dir={dir} fileName={fileName} repoName={repoName} branchBaseUrl={baseBranchUrl}/>
+		<div className="ml-auto space-x-2">
+			{isAC && <Button as="a" to={`/${path.join(userName, repoName, 'delete', branchId, dir)}?l=${fileName}`} variant="red">
+				Delete
+			</Button>}
+		</div>
 	</div>
 	<div className="mt-6">
 		{file.err ? <Alert variant="red">{`The '${userName}/${repoName}' repository doesn't contain the '${fileName}' file in '${branchId}'`}</Alert>

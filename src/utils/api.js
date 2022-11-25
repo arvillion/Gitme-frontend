@@ -251,9 +251,9 @@ export async function uploadFile({ token, branchId, commitMsg, dir, repoId, file
 	})
 }
 
-export async function deleteFile({ token, branchId, commitMsg, dir, repoId }) {
+export async function deleteFile({ token, branchId, commitMsg, path, repoId }) {
 	return fcJSONAuth(API_URL + '/repo/edit/deleFile?' 
-		+ new URLSearchParams({ branchName: branchId, commitMsg, path: dir, repoID: repoId }),
+		+ new URLSearchParams({ branchName: branchId, commitMsg, path, repoID: repoId }),
 		token, {
 			method: 'POST'
 		})
