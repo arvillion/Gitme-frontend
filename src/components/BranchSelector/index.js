@@ -59,7 +59,6 @@ export default function BranchSelector({
 								{branches.map(({ name, objID }) => <li className="flex items-center px-4 py-2 hover:bg-gray-100"
 									key={objID}
 								>
-									{path.join(`/${userName}/${repoName}/source/`, name)}
 									<Link to={path.join(`/${userName}/${repoName}/source/`, name, dir) + location.search}>
 										<FontAwesomeIcon icon={faCheck} className={ name === branchId ? '' : "invisible"}/>
 										<span className="ml-3">{name}</span>

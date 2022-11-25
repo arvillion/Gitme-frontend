@@ -234,6 +234,31 @@ export async function getPullRequests({ repoId, token }) {
 	return fcJSONAuth(API_URL + '/PR/view/getAllPR?repoID=' + repoId, token)
 }
 
+export async function uploadFile({ token, branchId, commitMsg, dir, repoId, file }) {
+	const requestData = new FormData()
+	requestData.append('uploadFile', file)
+
+	return fcJSONAuth(API_URL + '/repo/edit/upFile?'
+		+ new URLSearchParams({ 
+			branchName: branchId, 
+			commitMsg, 
+			path: path.join(dir, file.name), 
+			repoID: repoId,
+		}), 
+	token, {
+		method: 'POST',
+		body: requestData
+	})
+}
+
+export async function deleteFile({ token, branchId, commitMsg, dir, repoId }) {
+	return fcJSONAuth(API_URL + '/repo/edit/deleFile?' 
+		+ new URLSearchParams({ branchName: branchId, commitMsg, path: dir, repoID: repoId }),
+		token, {
+			method: 'POST'
+		})
+}
+
 // export function downloadZIP({ repoId, branch }) {
 // 	return fcJS
 // }

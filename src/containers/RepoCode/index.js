@@ -109,7 +109,7 @@ export default function RepoCode() {
 			
 		</div>
 		<div className="flex items-center space-x-2">
-			<Button>Create new file</Button>
+			<Button as="a" to={`/${path.join(userName, repoName, 'upload', branchId, dir)}`}>Upload file</Button>
 			<Popover className="relative">
 				<Popover.Button className="hidden md:block bg-green-500 text-white hover:bg-green-600 active:bg-green-700 inline-flex items-center px-5 py-2 rounded-lg text-sm font-medium">
 					<span className="mr-2">Clone</span>
@@ -127,7 +127,7 @@ export default function RepoCode() {
 						value={cloneUrl}
 						/>
 						<button className="bg-gray-50 py-2 px-3 border border-gray-200 -m-l-px rounded-r-lg hover:bg-gray-200 active:bg-gray-300"
-						onClick={() => navigator.clipboard.writeText('https://mirrors.sustech.edu.cn/git/12010704/1.git')}
+						onClick={() => navigator.clipboard.writeText({cloneUrl})}
 						>
 							<FontAwesomeIcon icon={faCopy}/>
 						</button>

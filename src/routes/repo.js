@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom"
-import { createRepository, deleteRepository, forkRepo, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo } from "../utils/api"
+import { createRepository, deleteRepository, forkRepo, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo, uploadFile } from "../utils/api"
 import * as path from "../utils/path"
 
 export default async function repoInfoLoader({ params }) {
@@ -11,8 +11,10 @@ export default async function repoInfoLoader({ params }) {
 		getRepoInfo({ token, repoId }),
 		getCloneUrl({ repoName, userName, token })
 	])
+	const myName = localStorage.getItem('userName')
+	const isAC = (myName === userName) || repoInfo.collaborators.some(c => c === myName)
 	const defaultBranch = branches?.find(b => b.default)
-	return { repoId, repoInfo, branches, defaultBranch, cloneUrl }
+	return { repoId, repoInfo, branches, defaultBranch, cloneUrl, isAC }
 }
 
 export async function repoAction({ params, request }) {
@@ -103,6 +105,23 @@ export async function forkAction({ request, params }) {
 	try {
 		await forkRepo({ desc, newRepoName, repoId, token })
 		return redirect(`/${myName}/${newRepoName}`)
+	} catch (err) {
+		return { err: err.message }
+	}
+}
+
+export async function uploadAction({ request, params }) {
+	const formData = await request.formData()
+	const token = localStorage.getItem('token')
+	const repoId = formData.get('repoId')
+	const dir = formData.get('dir')
+	const {branchId, userName, repoName} = params
+	const file = formData.get('file')
+	const commitMsg = formData.get('commitMsg')
+	try {
+		console.log(dir)
+		await uploadFile({ token, branchId, commitMsg, repoId, dir, file })
+		return redirect(`/${path.join(userName, repoName, 'source', branchId, dir)}`)
 	} catch (err) {
 		return { err: err.message }
 	}
