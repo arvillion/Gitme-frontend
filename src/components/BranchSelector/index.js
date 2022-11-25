@@ -44,7 +44,7 @@ export default function BranchSelector({
 						<Ta>
 							{({selected}) => selected ?
 								<div
-									className="outline-none text-gray-900 px-3 py-1 rounded-t-lg border border-gray-300 border-b-0 relative after:absolute after:-bottom-px after:block after:inset-x-0 after:h-px after:bg-white"
+								className="outline-none text-gray-900 px-3 py-1 rounded-t-lg border border-gray-300 border-b-0 relative after:absolute after:-bottom-px after:block after:inset-x-0 after:h-px after:bg-white"
 								>Tags</div> :
 								<div className="outline-none px-3 py-1">
 									Tags
@@ -59,6 +59,7 @@ export default function BranchSelector({
 								{branches.map(({ name, objID }) => <li className="flex items-center px-4 py-2 hover:bg-gray-100"
 									key={objID}
 								>
+									{path.join(`/${userName}/${repoName}/source/`, name)}
 									<Link to={path.join(`/${userName}/${repoName}/source/`, name, dir) + location.search}>
 										<FontAwesomeIcon icon={faCheck} className={ name === branchId ? '' : "invisible"}/>
 										<span className="ml-3">{name}</span>

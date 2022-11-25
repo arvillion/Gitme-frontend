@@ -30,6 +30,7 @@ const router = createBrowserRouter([
 			{
 				index: true,
 				loader: userDataLoader,
+				errorElement: <GeneralError />,
 				element: <UserPage me={true}/>
 			},
 			{

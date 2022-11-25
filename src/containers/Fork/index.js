@@ -28,7 +28,7 @@ export default function Fork() {
 			</div>
 			<div>
 				<input type="hidden" name="repoId" value={repoId} form="formFork"/>
-				<LoadingButton variant="blue" form="formFork" type="submit">Create fork</LoadingButton>
+				<LoadingButton variant="blue" form="formFork" type="submit" loading={navigation.state !== 'idle'}>Create fork</LoadingButton>
 			</div>
 		</div>
 	</>

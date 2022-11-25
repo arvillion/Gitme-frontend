@@ -3,6 +3,7 @@ export function join(...args) {
 	for (let arg of args) {
 		// console.log(arg)
 		if (!arg) continue
+		console.log(arg)
 		arg = arg.replace(/\/+$/, '')
 		if (arg === '') continue
 		if (path) {
@@ -17,8 +18,8 @@ export function join(...args) {
 export function parent(path) {
 	path = path.replace(/\/+$/, '')
 	if (path === '') return ''
-	const idx = path.lastIndexOf(path)
-	if (idx < 0) return idx
+	const idx = path.lastIndexOf('/')
+	if (idx < 0) return ''
 	else return path.slice(0, idx)
 }
 
