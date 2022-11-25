@@ -21,6 +21,8 @@ export default function DeleteFile() {
 	const err = useActionData()?.err
 	const loading = navigation.state !== 'idle'
 
+	const myName = localStorage.getItem('userName')
+
 
 
 	return <>
@@ -28,7 +30,7 @@ export default function DeleteFile() {
 		<div className="mt-3 py-2 text-center space-y-4">
 			<Alert variant="yellow">You are deleting '{fileName}'</Alert>
 		</div>
-		<Dialog className="mt-4">
+		<Dialog className="mt-4" userName={myName}>
 			<div className="p-4">
 				<div className="text-xl font-bold mb-4">
 					Commit changes

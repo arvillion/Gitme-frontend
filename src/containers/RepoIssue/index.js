@@ -14,54 +14,6 @@ import dayjs from "dayjs";
 import UserLink from "../../components/UserLink";
 import Alert from "../../components/Alert";
 
-// authorID
-// : 
-// 1
-// authorName
-// : 
-// "hermitian"
-// commentNum
-// : 
-// 0
-// date
-// : 
-// "2022-11-23 08:46:55"
-// id
-// : 
-// 1
-// idWithinRepo
-// : 
-// 1
-// repoID
-// : 
-// 1
-// state
-// : 
-// true
-// title
-// : 
-// "good morning"
-
-
-// content
-// : 
-// "work everyday"
-// date
-// : 
-// "2022-11-23 22:25:19"
-// id
-// : 
-// 5
-// likesNum
-// : 
-// 0
-// ownerID
-// : 
-// 1
-// replyIssueId
-// : 
-// 1
-
 export default function RepoIssue() {
 
 	const [md, setMd] = useState('')

@@ -20,6 +20,7 @@ export default function UploadFile() {
 	const loading = navigation.state !== 'idle'
 
 	const [fileToUpload, setFileToUpload] = useState({})
+	const myName = localStorage.getItem('userName')
 
 
 	return <>
@@ -39,7 +40,7 @@ export default function UploadFile() {
 				}}/>
 			</div>
 		</div>
-		<Dialog className="mt-4">
+		<Dialog className="mt-4" userName={myName}>
 			<div className="p-4">
 				<div className="text-xl font-bold mb-4">
 					Commit changes

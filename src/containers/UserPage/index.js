@@ -9,11 +9,12 @@ import RepoSummary from "../../components/RepoSummary";
 import Tab from "../../components/Tab";
 import RepoShortSummary from "../../components/RepoShortSummary";
 import Badge from "../../components/Badge";
-import { Await, Form, useFetcher, useLoaderData } from "react-router-dom";
+import { Await, Form, useFetcher, useLoaderData, useParams } from "react-router-dom";
 import Modal from "../../components/Modal";
 import Input from "../../components/Input";
 import Alert from "../../components/Alert";
 import Spinner from "../../components/Spinner";
+import Avatar from "../../components/Avatar";
 
 
 const repoTypeOptions = [
@@ -48,6 +49,8 @@ export default function UserPage({
 	const cpFetcher = useFetcher()
 	const cpSuccess = cpFetcher.state === 'idle' && cpFetcher.data?.err === ''	
 
+	const { userName } = useParams()
+
 	return (
 			<div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4">
 				<div className="w-full md:w-60 lg:w-64 shrink-0">
@@ -55,7 +58,7 @@ export default function UserPage({
 						{/* avatar */}
 						<div className="flex items-center">
 							<div className="w-32 shadow-md border border-gray-300 aspect-square md:w-full rounded-full overflow-hidden">
-								<img src={avatarImg} className="w-full aspect-square"/>
+								<Avatar userName={userName} className="w-full"/>
 							</div>
 							<div className="md:hidden p-4">
 								<div className="font-bold text-2xl">{ profile.name }</div>

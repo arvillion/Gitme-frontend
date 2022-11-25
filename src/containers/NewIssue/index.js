@@ -4,7 +4,7 @@ import { Tab as Ta } from "@headlessui/react";
 import Tabb from "../../components/Tabb";
 import Textarea from "../../components/Textarea";
 import { useState } from "react";
-import Button from "../../components/Button";
+import Button, { LoadingButton } from "../../components/Button";
 import MarkdownViewer from "../../components/MarkdownViewer";
 import Alert from "../../components/Alert";
 import Dialog from "../../components/Dialog";
@@ -15,10 +15,13 @@ export default function NewIssue() {
 	const { repoId } = useRouteLoaderData("repoRoot")
 	const err = fetcher.data?.err
 	const [ title, setTitle ] = useState('')
+
+	const myName = localStorage.getItem('userName')
+
 	return <>
 		<div className="text-3xl py-4 border-gray-300">New Issue</div>
 		{(err && fetcher.state === 'idle') && <Alert variant="red">{err}</Alert>}
-		<Dialog className="mt-2">
+		<Dialog className="mt-2" userName={myName}>
 			<div className="p-2">
 				<Input type="text" placeholder="Title" size="lg" required name='title' value={title} onChange={(e) => setTitle(e.target.value)}/>
 			</div>
@@ -37,7 +40,7 @@ export default function NewIssue() {
 							></Textarea>
 							<input type="hidden" value={title} name="title"/>
 							<div className="flex justify-end">
-								<Button variant="blue" type="submit">Submit new issue</Button>
+								<LoadingButton variant="blue" type="submit" loading={fetcher.state !== 'idle'}>Submit new issue</LoadingButton>
 							</div>
 						</fetcher.Form>
 

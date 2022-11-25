@@ -15,6 +15,7 @@ import Breadcrumb from "../../components/Breadcrumb";
 import { faFileZipper } from "@fortawesome/free-regular-svg-icons";
 import BranchSelector from "../../components/BranchSelector";
 import CodeHighlighter from "../../components/CodeHighlighter";
+import Avatar from "../../components/Avatar";
 
 const loadDir = async ({ repoId, commitId, dir }) => {
 	const { data: content } = await getDir({ 
@@ -200,11 +201,14 @@ export default function RepoCode() {
 			<div className="space-y-4 py-4">
 				<h3 className="font-medium text-lg">Contributors</h3>
 				<ul className="flex flex-wrap">
-					{Array(10).fill(1).map((_, idx) => (
-					<li className="mr-2 mb-2 w-10 h-10 rounded-full overflow-hidden" key={idx}>
-						<img src={avatarImg}/>
+					{repoInfo.collaborators.map(name => (
+					<li className="mr-2 mb-2 w-10 h-10 rounded-full overflow-hidden" key={name}>
+						<Link to={`/${name}/`}>
+							<Avatar userName={name} alt={name}/>
+						</Link>
 					</li>
 					))}
+					{(repoInfo.collaborators.length === 0) && <li>No collaborators</li>}
 				</ul>
 			</div>
 		</div>
