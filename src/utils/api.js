@@ -75,13 +75,6 @@ export function getUserRepos({ username, token }) {
 }
 
 export function editMyProfile({ token, bio, phone }) {
-	// return fcJSONAuth(API_URL + '/user/editMyInfo', token, {
-	// 	method: "POST",
-	// 	headers: {
-	// 		'content-type': 'application/json',
-	// 	},
-	// 	body: JSON.stringify({ bio, phoneNumber: phone })
-	// })
 	return fcJSONAuth(API_URL + '/user/editMyInfo?' + new URLSearchParams({
 		bio,
 		phoneNumber: phone,

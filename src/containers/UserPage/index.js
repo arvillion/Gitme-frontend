@@ -1,6 +1,6 @@
 import { faBookOpen, faLocationDot, faLock, faLockOpen, faPaperclip, faPhone, faStar, faWarehouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import Button, { LoadingButton } from "../../components/Button";
 import Select from "../../components/Select";
@@ -9,10 +9,11 @@ import RepoSummary from "../../components/RepoSummary";
 import Tab from "../../components/Tab";
 import RepoShortSummary from "../../components/RepoShortSummary";
 import Badge from "../../components/Badge";
-import { Form, useFetcher, useLoaderData } from "react-router-dom";
+import { Await, Form, useFetcher, useLoaderData } from "react-router-dom";
 import Modal from "../../components/Modal";
 import Input from "../../components/Input";
 import Alert from "../../components/Alert";
+import Spinner from "../../components/Spinner";
 
 
 const repoTypeOptions = [
@@ -27,10 +28,10 @@ const sortByOptions = [
 	{name: 'Stars', value: 'stars'},
 ]
 
-const heruistic = (repo) => {
-	return repo.star + repo.fork
-}
-const compareFn = (a, b) => heruistic(a) < heruistic(b)
+// const heruistic = (repo) => {
+// 	return repo.star + repo.fork
+// }
+
 
 export default function UserPage({
 	me = false
@@ -38,7 +39,6 @@ export default function UserPage({
 	const [repoType, setRepoType] = useState(repoTypeOptions[0])
 	const [sortBy, setSortBy] = useState(sortByOptions[0])
 	const { profile, repos, starredRepos } = useLoaderData()
-	const popularRepos = repos.sort(compareFn).slice(0, 6)
 
 	const [modalShow, setModalShow] = useState(false)
 	const fetcher = useFetcher()
@@ -97,7 +97,9 @@ export default function UserPage({
 							<Tab>
 								<FontAwesomeIcon icon={faWarehouse}/>
 								<span className="ml-3 mr-2 text-sm font-medium text-gray-900">Repositories</span>
-								<Badge type="gray full">{repos.length}</Badge>
+								<React.Suspense>
+									<Await resolve={repos} children={(resolvedRepos) => <Badge type="gray full">{resolvedRepos.all.length}</Badge>}/>
+								</React.Suspense>
 							</Tab>
 							<Tab>
 								<FontAwesomeIcon icon={faStar}/>
@@ -108,19 +110,25 @@ export default function UserPage({
 						<Tab.Panels>
 							<Tab.Panel>
 								<h3 className="mb-3">Popular repositories</h3>
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-									{popularRepos.map(({ name, desc, state, star, fork }) => (
-										<RepoShortSummary 
-											key={name}
-											name={name}
-											type={state}
-											desc={desc}
-											stars={star}
-											forks={fork}
-											to={`/${profile.name}/${name}`}	
+								
+									<React.Suspense fallback={<Spinner/>}>
+										<Await
+											resolve={repos}
+											children={(resolvedRepos) => <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+												{resolvedRepos.popular.map(({ name, desc, state, star, fork }) => 
+													<RepoShortSummary 
+														key={name}
+														name={name}
+														type={state}
+														desc={desc}
+														stars={star}
+														forks={fork}
+														to={`/${profile.name}/${name}`}	
+													/>)}
+											</div>}
 										/>
-									))}
-								</div>
+									</React.Suspense>
+								
 							</Tab.Panel>
 							<Tab.Panel>
 								{/* search utilities */}
@@ -188,23 +196,27 @@ export default function UserPage({
 								
 								{/* repo list */}
 								<div className="space-y-4 divide-y divide-gray-200 border-t border-gray-200 mt-6">
-									{repos.map(({ id, name, state, desc, star, fork, issue, pr, lastUpdate, starOwn }) => (
-										<RepoSummary 
-											key={name}
-											name={name}
-											type={state}
-											desc={desc}
-											stars={star}
-											isStarred={starOwn}
-											forks={fork}
-											issues={issue}
-											lastUpdated={lastUpdate}
-											pulls={pr}
-											to={`/${profile.name}/${name}`}
-											repoId={id}
-										/>	
-									))}
-
+									<React.Suspense fallback={<Spinner/>}>
+										<Await
+											resolve={repos}
+											children={(resolvedRepos) => resolvedRepos.all.map(({ id, name, state, desc, star, fork, issue, pr, lastUpdate, starOwn }) => (
+												<RepoSummary 
+													key={name}
+													name={name}
+													type={state}
+													desc={desc}
+													stars={star}
+													isStarred={starOwn}
+													forks={fork}
+													issues={issue}
+													lastUpdated={lastUpdate}
+													pulls={pr}
+													to={`/${profile.name}/${name}`}
+													repoId={id}
+												/>	
+											))}
+										/>
+									</React.Suspense>
 								</div>
 							</Tab.Panel>
 							<Tab.Panel>

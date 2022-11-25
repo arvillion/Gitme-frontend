@@ -13,13 +13,29 @@ export async function userDataLoader({ params }) {
 
 	const [
 		{ data: profile },
-		{ data: repos },
+		// { data: repos },
 		{ data: starredRepos },
-	] = await Promise.all([ infoPromise, reposPromise, getStarredRepos({ token }) ])
+	] = await Promise.all([ 
+		infoPromise, 
+		// reposPromise, 
+		getStarredRepos({ token }) 
+	])
+
+	const heruistic = (repo) => {
+		return repo.star + repo.fork
+	}
+	const compareFn = (a, b) => heruistic(a) < heruistic(b)
+
 	return { 
 		profile,
-		repos,
+		// repos,
 		starredRepos,
+		repos: reposPromise.then(({ data }) => {
+			return {
+				all: data,
+				popular: data.sort(compareFn).slice(0, 6)
+			}
+		})
 	}
 }
 

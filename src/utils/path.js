@@ -1,9 +1,7 @@
 export function join(...args) {
 	let path = ''
 	for (let arg of args) {
-		// console.log(arg)
 		if (!arg) continue
-		console.log(arg)
 		arg = arg.replace(/\/+$/, '')
 		if (arg === '') continue
 		if (path) {
