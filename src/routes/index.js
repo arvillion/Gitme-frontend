@@ -23,6 +23,7 @@ import RepoPulls from "../containers/RepoPulls";
 import { prsLoader } from "./pr";
 import UploadFile from "../containers/UploadFile";
 import DeleteFile from "../containers/DeleteFile";
+import { commitsLoader } from "./commits";
 
 const router = createBrowserRouter([
 	{
@@ -87,10 +88,11 @@ const router = createBrowserRouter([
 						]
 					},
 					{
-						path: 'commits',
+						path: 'commits/:branchId',
 						children: [
 							{
-								path: '',
+								index: true,
+								loader: commitsLoader,
 								element: <RepoCommits />
 							},
 							{

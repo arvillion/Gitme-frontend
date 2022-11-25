@@ -1,6 +1,7 @@
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { Link } from "react-router-dom"
+import { Link, useParams, useRouteLoaderData } from "react-router-dom"
+import BranchSelector from "../../components/BranchSelector"
 dayjs.extend(relativeTime)
 const commits = [
 	{
@@ -17,7 +18,16 @@ const commits = [
 	}
 ]
 export default function RepoCommits() {
+	const params = useParams()
+	const { branchId, repoName, userName } = params
+	let dir = (params["*"] || '').replace(/\/+$/, '')
+	const { repoId, repoInfo, branches } = useRouteLoaderData("repoRoot")
+
+
 	return <>
+		<div className="mb-6">
+			<BranchSelector sector="commits" repoName={repoName} userName={userName} dir={dir} branches={branches} currentBranchId={branchId}/>
+		</div>
 		<table className="w-full text-gray-700">
 			<thead className="text-left border-b-2 border-gray-300 font-bold text-gray-600">
 				<tr>

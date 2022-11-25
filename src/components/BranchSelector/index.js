@@ -9,7 +9,8 @@ export default function BranchSelector({
 	branches,
 	userName,
 	repoName,
-	currentBranchId: branchId
+	currentBranchId: branchId,
+	sector = 'source',
 }) {
 	const location = useLocation()
 	return <Popover className="relative">
@@ -59,7 +60,7 @@ export default function BranchSelector({
 								{branches.map(({ name, objID }) => <li className="flex items-center px-4 py-2 hover:bg-gray-100"
 									key={objID}
 								>
-									<Link to={path.join(`/${userName}/${repoName}/source/`, name, dir) + location.search}>
+									<Link to={path.join(`/${userName}/${repoName}/${sector}/`, name, dir) + location.search}>
 										<FontAwesomeIcon icon={faCheck} className={ name === branchId ? '' : "invisible"}/>
 										<span className="ml-3">{name}</span>
 									</Link>

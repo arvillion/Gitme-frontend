@@ -8,14 +8,14 @@ import RepoMenu from "../../components/RepoMenu";
 import StarButton from "../../components/StarButton";
 
 export default function RepoLayout() {
-	const { userName, repoName } = useParams()
+	const params = useParams()
+	const { userName, repoName, branchId } = params
 	const baseUrl = `/${userName}/${repoName}`
 	const { repoInfo, branches } = useLoaderData()
 	const isPublic = repoInfo.state.toUpperCase() == "PUBLIC"
 	const location = useLocation()
 
 	const isMyRepo = (userName === localStorage.getItem('userName'))
-
 	return <>
 
 	<div className="space-y-4 mb-4">
@@ -67,7 +67,7 @@ export default function RepoLayout() {
 			<FontAwesomeIcon icon={faCodePullRequest} fixedWidth/>
 			<span className="ml-3">Pull requests</span>
 		</RepoMenu.Item>
-		<RepoMenu.Item to={`${baseUrl}/commits`}>
+		<RepoMenu.Item to={`${baseUrl}/commits/${branchId}`}>
 			<FontAwesomeIcon icon={faCodeCommit} fixedWidth/>
 			<span className="ml-3">Commits</span>
 		</RepoMenu.Item>

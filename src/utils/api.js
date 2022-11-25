@@ -259,6 +259,12 @@ export async function deleteFile({ token, branchId, commitMsg, path, repoId }) {
 		})
 }
 
-// export function downloadZIP({ repoId, branch }) {
-// 	return fcJS
-// }
+export async function getCommits({ branchId, repoId, token }) {
+	return fcJSONAuth(API_URL + '/repo/view/getAllVersionByRepoID?'
+	 + new URLSearchParams({ branchName: branchId, repoID: repoId }), token)
+}
+
+export function getRepoDownloadUrl({ repoId, branchId, token }) {
+	return API_URL + '/repo/downloadRepo?'
+		+ new URLSearchParams({ branch: branchId, repoID: repoId, tokenValue: token })
+}

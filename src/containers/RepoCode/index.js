@@ -1,4 +1,4 @@
-import { faCaretDown, faXmark, faCheck, faTag, faTerminal, faCopy, faFolder, faFile, faCodeBranch, faCodeFork, faCodePullRequest, faPaperclip, faStar, faWarehouse, faCodeCommit } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faTerminal, faCopy, faFolder, faFile, faCodeBranch, faCodeFork, faCodePullRequest, faPaperclip, faStar, faWarehouse, faCodeCommit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Button";
 import { Popover } from "@headlessui/react";
@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm";
 import avatarImg from '../../images/avatar.png'
 import ReactMarkdown from "react-markdown";
 import { Link, useLoaderData, useParams, useRouteLoaderData, useSearchParams } from "react-router-dom";
-import { getDir, getFile, getFileContent } from "../../utils/api";
+import { getDir, getFile, getFileContent, getRepoDownloadUrl } from "../../utils/api";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import * as path from "../../utils/path";
@@ -53,6 +53,8 @@ export default function RepoCode() {
 
 	const dirExist = dirContent?.length
 	const hasREADME = dirContent?.some(({ name }) => name === 'README.md')
+
+	const token = localStorage.getItem('token')
 
 	const [readme, setReadme] = useState('')
 	useEffect(() => {
@@ -133,7 +135,8 @@ export default function RepoCode() {
 						</button>
 					</div>
 					<a className="block px-4 py-4 hover:bg-gray-100 font-medium cursor-pointer"
-						href={0}
+						href={getRepoDownloadUrl({ repoId, branchId, token })}
+						target="_blank"
 					>
 						<FontAwesomeIcon icon={faFileZipper} className="mr-2"/>
 						<span>Download ZIP</span>
