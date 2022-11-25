@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom"
-import { createRepository, deleteFile, deleteRepository, forkRepo, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, starRepo, undoStarRepo, uploadFile } from "../utils/api"
+import { createRepository, deleteFile, deleteRepository, forkRepo, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, invite, starRepo, undoStarRepo, unInvite, uploadFile } from "../utils/api"
 import * as path from "../utils/path"
 
 export default async function repoInfoLoader({ params }) {
@@ -147,5 +147,24 @@ export async function deleteAction({ request, params }) {
 		return redirect(`/${path.join(userName, repoName, 'source', branchId, dir)}`)	
 	} catch (err) {
 		return { err: err.message }
+	}
+}
+
+export async function accessAction({ request, params }) {
+
+	const token = localStorage.getItem('token')
+	const formData = await request.formData()
+	const repoId = formData.get('repoId')
+	const userName  = formData.get('userName')
+	const isInvite = formData.get('invite') === 'invite'
+
+	try {
+		if (isInvite) {
+			await invite({ token, userName, repoId })
+		} else {
+			await unInvite({ token, userName, repoId })
+		}
+	} catch (err) {
+		return { err: err.message, type: 'access' }
 	}
 }

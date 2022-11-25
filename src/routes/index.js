@@ -12,7 +12,7 @@ import RepoIssues from "../containers/RepoIssues";
 import SigninPage from "../containers/SigninPage";
 import SignupPage from "../containers/SignupPage";
 import UserPage from "../containers/UserPage";
-import repoInfoLoader, { contentLoader, deleteAction, deleteRepoAction, fileContentLoader, forkAction, repoAction, starAction, uploadAction } from "./repo";
+import repoInfoLoader, { accessAction, contentLoader, deleteAction, deleteRepoAction, fileContentLoader, forkAction, repoAction, starAction, uploadAction } from "./repo";
 import { editProfileAction, userDataLoader } from "./user";
 import DefaultBranchRedirect from "../containers/DefaultBranchRedirect";
 import NewIssue from "../containers/NewIssue";
@@ -166,6 +166,10 @@ const router = createBrowserRouter([
 	{
 		path: '_repo.delete',
 		action: deleteRepoAction,
+	},
+	{
+		path: '_repo.access',
+		action: accessAction,
 	}
 	// {
 	// 	path: '_issue.state',

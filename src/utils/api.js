@@ -268,3 +268,17 @@ export function getRepoDownloadUrl({ repoId, branchId, token }) {
 	return API_URL + '/repo/downloadRepo?'
 		+ new URLSearchParams({ branch: branchId, repoID: repoId, tokenValue: token })
 }
+
+export function invite({ token, userName, repoId }) {
+	return fcJSONAuth(API_URL + '/user/edit/invite?'
+		+ new URLSearchParams({ repoID: repoId, userName: userName }), token, {
+			method: 'post'
+		})
+}
+
+export function unInvite({ token, userName, repoId }) {
+	return fcJSONAuth(API_URL + '/user/edit/unInvite?'
+		+ new URLSearchParams({ repoID: repoId, userName: userName }), token, {
+			method: 'post'
+		})
+}
