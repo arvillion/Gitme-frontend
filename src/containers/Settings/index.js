@@ -110,7 +110,7 @@ export default function Settings() {
 			<div className="py-3 text-3xl">Danger Zone</div>
 			<div className="border border-red-300 rounded flex flex-col divide-y divide-gray-300">
 
-				<div className="py-4 px-5 flex justify-between items-center">
+				{/* <div className="py-4 px-5 flex justify-between items-center">
 					<div className="flex flex-col justify-between">
 						<div className="font-bold mb-1">Change repository visibility</div>
 						<div className="text-sm">This repository is currently private.</div>
@@ -118,7 +118,7 @@ export default function Settings() {
 					<div>
 						<Button variant="red">Change visibility</Button>
 					</div>
-				</div>
+				</div> */}
 
 
 				<div className="py-4 px-5 flex justify-between items-center">

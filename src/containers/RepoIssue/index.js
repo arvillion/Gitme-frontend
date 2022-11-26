@@ -9,7 +9,7 @@ import Tab from "../../components/Tab";
 import Textarea from "../../components/Textarea";
 import { useState } from "react";
 import Button from "../../components/Button";
-import { Form, useActionData, useLoaderData, useNavigation } from "react-router-dom";
+import { Form, useActionData, useLoaderData, useNavigation, useRouteLoaderData } from "react-router-dom";
 import dayjs from "dayjs";
 import UserLink from "../../components/UserLink";
 import Alert from "../../components/Alert";
@@ -20,6 +20,7 @@ export default function RepoIssue() {
 	const { issueInfo, comments } = useLoaderData()
 	const navigation = useNavigation()
 	const err = useActionData()?.err
+	const isAC = useRouteLoaderData("repoRoot")
 
 	return <>
 		<div className="pb-3 border-b border-gray-300">
@@ -70,8 +71,7 @@ export default function RepoIssue() {
 								<input type="hidden" name="issueTrueId" value={issueInfo.id}/>
 							</Form>
 							<div className="flex justify-end space-x-2 mt-2">
-								<Button variant="purple" type="submit" form="formState">Close issue</Button>
-								
+								{isAC && <Button variant="purple" type="submit" form="formState">Close issue</Button>}
 								<Button variant="blue" type="submit" form="formCont">Comment</Button>
 							</div>
 						</Tabb.Panel>

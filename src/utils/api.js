@@ -192,15 +192,15 @@ export function createComment({ token, content, issueTrueId }) {
 
 
 export function openIssue({ token, repoId, issueId }) {
-	return fcJSONAuth(API_URL + '/issue/openIssue?' 
-		+ new URLSearchParams({ idWithin: issueId, repoId }), token, {
+	return fcJSONAuth(API_URL + '/issue/edit/openIssue?' 
+		+ new URLSearchParams({ idWithin: issueId, repoID: repoId }), token, {
 			method: 'POST'
 		})
 }
 
 export function closeIssue({ token, repoId, issueId }) {
-	return fcJSONAuth(API_URL + '/issue/closeIssue?' 
-		+ new URLSearchParams({ idWithin: issueId, repoId }), token, {
+	return fcJSONAuth(API_URL + '/issue/edit/closeIssue?' 
+		+ new URLSearchParams({ idWithin: issueId, repoID: repoId }), token, {
 			method: 'POST'
 		})
 }
