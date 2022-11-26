@@ -12,7 +12,7 @@ import RepoIssues from "../containers/RepoIssues";
 import SigninPage from "../containers/SigninPage";
 import SignupPage from "../containers/SignupPage";
 import UserPage from "../containers/UserPage";
-import repoInfoLoader, { accessAction, contentLoader, deleteAction, deleteRepoAction, fileContentLoader, forkAction, repoAction, starAction, uploadAction } from "./repo";
+import repoInfoLoader, { accessAction, contentLoader, deleteAction, deleteRepoAction, detailAction, fileContentLoader, forkAction, repoAction, starAction, uploadAction } from "./repo";
 import { editProfileAction, userDataLoader } from "./user";
 import DefaultBranchRedirect from "../containers/DefaultBranchRedirect";
 import NewIssue from "../containers/NewIssue";
@@ -20,33 +20,40 @@ import { createIssueAction, issueAction, issueLoader, issueStateAction, newComme
 import Settings from "../containers/Settings";
 import Fork from "../containers/Fork";
 import RepoPulls from "../containers/RepoPulls";
-import { prsLoader } from "./pr";
+import { prLoader, prsLoader } from "./pr";
 import UploadFile from "../containers/UploadFile";
 import DeleteFile from "../containers/DeleteFile";
-import { commitsLoader } from "./commits";
+import { commitLoader, commitsLoader } from "./commits";
+import Search from "../containers/Search";
+import { searchLoader } from "./search";
+import RepoPull from "../containers/RepoPull";
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <ProtectedResource><App /></ProtectedResource>,
+		errorElement: <ProtectedResource><GeneralError/></ProtectedResource>,
 		children: [
 			{
 				index: true,
 				loader: userDataLoader,
-				errorElement: <GeneralError />,
 				element: <UserPage me={true}/>
+			},
+			{
+				path: '/search',
+				loader: searchLoader,
+				errorElement: <ProtectedResource><GeneralError /></ProtectedResource>,
+				element: <Search/>
 			},
 			{
 				path: ':userName',
 				loader: userDataLoader,
 				element: <UserPage />,
-				errorElement: <GeneralError />
 			},
 			{
 				path: ':userName/:repoName',
 				id: "repoRoot",
 				loader: repoInfoLoader,
-				errorElement: <GeneralError />,
 				element: <RepoLayout />,
 				children: [
 					{
@@ -88,18 +95,14 @@ const router = createBrowserRouter([
 						]
 					},
 					{
-						path: 'commits/:branchId',
-						children: [
-							{
-								index: true,
-								loader: commitsLoader,
-								element: <RepoCommits />
-							},
-							{
-								path: ':hash',
-								element: <RepoCommit />
-							}
-						]
+						path: 'commits/branches/:branchId',
+						loader: commitsLoader,
+						element: <RepoCommits />
+					},
+					{
+						path: 'commits/:commitId',
+						element: <RepoCommit />,
+						loader: commitLoader
 					},
 					{
 						path: 'issues',
@@ -128,7 +131,12 @@ const router = createBrowserRouter([
 								index: true,
 								element: <RepoPulls/>,
 								loader: prsLoader,
-							}
+							},
+							{
+								path: '/:prId',
+								element: <RepoPull/>,
+								loader: prLoader,
+							},
 						]
 					},
 					{
@@ -170,6 +178,10 @@ const router = createBrowserRouter([
 	{
 		path: '_repo.access',
 		action: accessAction,
+	},
+	{
+		path: '_repo.detail',
+		action: detailAction,
 	}
 	// {
 	// 	path: '_issue.state',

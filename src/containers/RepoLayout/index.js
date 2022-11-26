@@ -11,7 +11,7 @@ export default function RepoLayout() {
 	const params = useParams()
 	const { userName, repoName, branchId } = params
 	const baseUrl = `/${userName}/${repoName}`
-	const { repoInfo, branches } = useLoaderData()
+	const { repoInfo, branches, defaultBranch } = useLoaderData()
 	const isPublic = repoInfo.state.toUpperCase() == "PUBLIC"
 	const location = useLocation()
 
@@ -67,7 +67,7 @@ export default function RepoLayout() {
 			<FontAwesomeIcon icon={faCodePullRequest} fixedWidth/>
 			<span className="ml-3">Pull requests</span>
 		</RepoMenu.Item>
-		<RepoMenu.Item to={`${baseUrl}/commits/${branchId}`}>
+		<RepoMenu.Item to={`${baseUrl}/commits/branches/${branchId || defaultBranch?.name || ''}`}>
 			<FontAwesomeIcon icon={faCodeCommit} fixedWidth/>
 			<span className="ml-3">Commits</span>
 		</RepoMenu.Item>

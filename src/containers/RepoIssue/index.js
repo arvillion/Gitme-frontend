@@ -22,7 +22,6 @@ export default function RepoIssue() {
 	const err = useActionData()?.err
 
 	return <>
-		
 		<div className="pb-3 border-b border-gray-300">
 			<h1 className="text-3xl py-3">
 				{issueInfo.title} <span className="text-gray-600">#{issueInfo.idWithinRepo}</span>

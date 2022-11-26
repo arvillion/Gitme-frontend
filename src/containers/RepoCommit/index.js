@@ -1,48 +1,69 @@
 import { Diff2HtmlUI } from 'diff2html/lib/ui/js/diff2html-ui'
 import 'diff2html/bundles/css/diff2html.min.css'
-// import 'highlight.js/styles/github.css'
-import diff_str from './diff'
 import { createRef, useEffect, useState } from 'react'
 import { parse } from 'diff2html'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons'
-import avatar from '../../images/avatar.png'
+import { Link, useLoaderData, useParams } from 'react-router-dom'
+import Avatar from '../../components/Avatar'
+import dayjs from 'dayjs'
 
 export default function RepoCommit() {
+
+	const { userName, repoName } = useParams()
+	const { commit, diffPromise } = useLoaderData()
+
+
 	const ref = createRef()
 	const configuration = {
 		drawFileList: true,
 		fileListToggle: false,
 	}
 	const [diffSum, setDiffSum] = useState({})
+
 	useEffect(() => {
-		const diffJson = parse(diff_str)
-		setDiffSum({
-			changedFiles: diffJson.length,
-			additions: diffJson.map(d => d.addedLines).reduce((pv, cv) => pv + cv),
-			deletions: diffJson.map(d => d.deletedLines).reduce((pv, cv) => pv + cv)
-		})
-		const diff2htmlUi = new Diff2HtmlUI(ref.current, diffJson, configuration)
-		diff2htmlUi.draw()
-		diff2htmlUi.highlightCode()
+		if (commit.parentHash.length) {
+			diffPromise.then(d => {
+				const diffJson = parse(d)	
+				setDiffSum({
+					changedFiles: diffJson.length,
+					additions: diffJson.map(d => d.addedLines).reduce((pv, cv) => pv + cv),
+					deletions: diffJson.map(d => d.deletedLines).reduce((pv, cv) => pv + cv)
+				})
+				const diff2htmlUi = new Diff2HtmlUI(ref.current, diffJson, configuration)
+				diff2htmlUi.draw()
+				diff2htmlUi.highlightCode()
+			})
+		}
 	}, [])
+
 	return <>
 		<div className='overflow-hidden rounded border border-gray-300'>
 			<div className='p-3 border-bottom border-gray-600 bg-gray-100'>
-				<div className='font-bold text-md mb-2'>[Beta] useImperativeHandle API</div>
+				<div className='font-bold text-md mb-2'>{commit.commit}</div>
 				<div className='text-sm'>
 					<FontAwesomeIcon icon={faCodeBranch}/>
-					<span className='ml-2'>main</span>
+					<span className='ml-2'>{commit.branchName}</span>
 				</div>
 			</div>
 			<div className='p-3 flex space-x-2 text-sm items-center'>
-				<div className='rounded-full overflow-hidden w-4 h-4'>
-					<img src={avatar} className='w-full'/>
-				</div>
-				<div className='font-bold'>geaaron</div>
-				<div>committed on Oct 6</div>
-				<div className='text-xs font-mono text-gray-300 hidden sm:block' style={{marginLeft: 'auto'}}>
-					commit 9af5d8df6947dbd25f5819035edb1c1fcad17f5e
+				{/* <div className='rounded-full overflow-hidden w-4 h-4'>
+					<Avatar className='w-full' userName='Anonymous'/>
+				</div> */}
+				<div className='font-bold'>Anonymous</div>
+				<div>committed on {dayjs(commit.submitDate).format('MMM D')}</div>
+				<div className='text-xs font-mono text-gray-400 hidden sm:block space-x-4' style={{marginLeft: 'auto'}}>
+					<span>
+						{commit.parentHash.length} parent
+						{commit.parentHash.map(p => <Link 
+							to={`/${userName}/${repoName}/commits/${p}`} 
+							className="hover:text-blue-600 mx-1"
+							key={p}
+						>
+							{p.substr(0, 7)}
+						</Link>)}
+					</span>
+					<span>commit {commit.hash}</span>
 				</div>
 			</div>
 		</div>

@@ -48,7 +48,7 @@ export default function RepoCommits() {
 
 	return <>
 		<div className="mb-6">
-			<BranchSelector sector="commits" repoName={repoName} userName={userName} dir={dir} branches={branches} currentBranchId={branchId}/>
+			<BranchSelector sector="commits/branches" repoName={repoName} userName={userName} dir={dir} branches={branches} currentBranchId={branchId}/>
 		</div>
 		<table className="w-full text-gray-700 table-fixed">
 			<thead className="text-left border-b-2 border-gray-300 font-bold text-gray-600">
@@ -64,7 +64,7 @@ export default function RepoCommits() {
 				{commits.map(({hash, commit: message, submitDate: date}) => <tr className="hover:bg-gray-100" key={hash}>
 					<td className="py-3 pl-1 hidden md:table-cell">Anonymous</td>
 					<td className="py-3 pl-1 hidden md:table-cell">
-						<Link to={`/${userName}/${repoName}/commits/${branchId}/${hash}`} className="text-blue-600 hover:underline">
+						<Link to={`/${userName}/${repoName}/commits/${hash}`} className="text-blue-600 hover:underline">
 							{hash.substring(0, 7)}
 						</Link>
 					</td>

@@ -264,6 +264,11 @@ export async function getCommits({ branchId, repoId, token }) {
 	 + new URLSearchParams({ branchName: branchId, repoID: repoId }), token)
 }
 
+export async function getCommit({ repoId, commitId, token }) {
+	return fcJSONAuth(API_URL + '/repo/getVersionByRepoID?'
+		+ new URLSearchParams({ commitID: commitId, repoID: repoId }), token)
+}
+
 export function getRepoDownloadUrl({ repoId, branchId, token }) {
 	return API_URL + '/repo/downloadRepo?'
 		+ new URLSearchParams({ branch: branchId, repoID: repoId, tokenValue: token })
@@ -282,3 +287,26 @@ export function unInvite({ token, userName, repoId }) {
 			method: 'post'
 		})
 }
+
+export async function search({ token, keyword }) {
+	return fcJSONAuth(API_URL + '/repo/FuzzySearch?'
+		+ new URLSearchParams({ keyword }), token)
+}
+
+export async function diff({ token, branchId0, branchId1, repoId }) {
+	return fcJSONAuth(API_URL + '/repo/view/getVersionDiff?'
+		+ new URLSearchParams({
+			branchName1: branchId0,
+			branchName2: branchId1,
+			repoID: repoId
+		}), token, {
+			method: 'POST'
+		})
+}
+
+export async function getPullRequestById({ token,  prId }) {
+	return fcJSONAuth(API_URL + '/PR/view/getPRByID?'
+		+ new URLSearchParams({
+			PRID: prId
+		}), token)
+} 

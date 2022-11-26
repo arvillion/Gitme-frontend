@@ -1,12 +1,13 @@
 import { faUser } from '@fortawesome/free-regular-svg-icons'
-import { faBookOpen, faMagnifyingGlass, faWarehouse } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faMagnifyingGlass, faWarehouse } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom'
+import { Form, Link, useRouteError } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import logoImg from '../../images/logo.png'
 
 export default function Navbar() {
 	const { token, handleLogout } = useAuth()
+	const err = useRouteError()
 	return (
 		<header className="shadow-sm">
 			<div
@@ -24,12 +25,14 @@ export default function Navbar() {
 						<img src={logoImg} className="h-10"/>
 					</span>
 					
-					<form className="mb-0 hidden lg:flex">
+					{!err && <Form className="mb-0 hidden lg:flex" action='/search'>
 						<div className="relative">
 							<input
 								className="h-10 rounded-lg border-gray-200 pr-10 text-sm placeholder-gray-300 focus:z-10"
 								placeholder="Search..."
 								type="text"
+								name="q"
+								required
 							/>
 
 							<button
@@ -39,7 +42,7 @@ export default function Navbar() {
 								<FontAwesomeIcon icon={faMagnifyingGlass} className="h-5 w-5"/>	
 							</button>
 						</div>
-					</form>
+					</Form>}
 				</div>
 
 				<div className="flex w-0 flex-1 justify-end lg:hidden">
@@ -51,8 +54,8 @@ export default function Navbar() {
 				<nav
 					className="hidden items-center justify-center gap-8 text-sm font-medium lg:flex lg:w-0 lg:flex-1"
 				>
-					<a className="text-gray-900" href=""><FontAwesomeIcon icon={faBookOpen} className="mr-1"/>Overview</a>
-					<a className="text-gray-900" href=""><FontAwesomeIcon icon={faWarehouse} className="mr-1"/>Repositories</a>
+					<Link className="text-gray-900" to="/"><FontAwesomeIcon icon={faWarehouse} className="mr-1"/>Repositories</Link>
+					<Link className="text-gray-900" to="/notifications"><FontAwesomeIcon icon={faBell} className="mr-1"/>Notifications</Link>
 					{/* <a className="text-gray-900" href="">Projects</a>
 					<a className="text-gray-900" href="">Contact</a> */}
 				</nav>
@@ -71,8 +74,8 @@ export default function Navbar() {
 				<nav
 					className="flex items-center justify-center overflow-x-auto p-4 text-sm font-medium"
 				>
-					<a className="flex-shrink-0 pl-4 text-gray-900" href="">Overview</a>
-					<a className="flex-shrink-0 pl-4 text-gray-900" href="">Repositories</a>
+					<Link className="flex-shrink-0 pl-4 text-gray-900" to="/">Repositories</Link>
+					<Link className="flex-shrink-0 pl-4 text-gray-900" to="/notifications">Notifications</Link>
 					{/* <a className="flex-shrink-0 pl-4 text-gray-900" href="">Projects</a>
 					<a className="flex-shrink-0 pl-4 text-gray-900" href="">Contact</a> */}
 				</nav>

@@ -5,6 +5,7 @@ import Button, { LoadingButton } from "../../components/Button";
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";
 import Avatar from "../../components/Avatar"
+import Textarea from "../../components/Textarea";
 
 export default function Settings() {
 	const { repoInfo, repoId } = useRouteLoaderData("repoRoot")
@@ -34,9 +35,28 @@ export default function Settings() {
 							<div className="text-sm">Update description.</div>
 						</div>
 						<div>
-							<Button variant="light">Edit</Button>
+							<Button variant="light" onClick={() => setCurrentModal('detail')}>Edit</Button>
 						</div>
 					</div>
+
+					<Modal title="Edit repository details" 
+						show={currentModal === 'detail'} 
+						showSubmitBtn={false}
+						handleClose={() => setCurrentModal('')}
+						showCloseBtn={fetcher.state === 'idle'}
+					>
+						{msg?.type === 'detail' && fetcher.state === 'idle' && <Alert className="mb-2" variant="red">{msg.err}</Alert>}
+						<div className="mb-3">
+							<fetcher.Form action="/_repo.detail" method="post">
+								<div className="mb-2">
+									<label className="mb-2 font-bold text-sm">Description</label>
+									<Textarea name="desc" style={{height: '100px'}}/>
+								</div>
+								<input type="hidden" name="repoId" value={repoId}/>
+								<LoadingButton loading={fetcher.state !== 'idle'} type="submit" variant="blue" className="w-full">Update</LoadingButton>
+							</fetcher.Form>
+						</div>
+					</Modal>
 
 					<div className="py-4 px-5 flex justify-between items-center">
 						<div className="flex flex-col justify-between">

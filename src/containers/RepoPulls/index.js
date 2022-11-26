@@ -7,27 +7,6 @@ import { Link, useLoaderData, useRouteLoaderData } from "react-router-dom";
 import Button from "../../components/Button";
 import { getIssues } from "../../utils/api";
 
-// diff
-// : 
-// null
-// fromBranch
-// : 
-// ""
-// fromRepoId
-// : 
-// 20
-// state
-// : 
-// "UNPROCESS"
-// title
-// : 
-// "no provide"
-// toBranch
-// : 
-// "master"
-// toRepoId
-// : 
-// 10
 
 export default function RepoPulls() {
 	const { repoId } = useRouteLoaderData("repoRoot")
@@ -37,7 +16,7 @@ export default function RepoPulls() {
 
 	const openPrs = prs.filter(p => p.state === 'UNPROCESS')
 	const closedPrs = prs.filter(p => p.state !== 'UNPROCESS') 
-
+	console.log(openPrs)
 	return <>
 		<div className="mb-4 flex flex-row-reverse">
 			<Button variant="green" className="inline-block" as="a" to="new">New pull request</Button>
@@ -54,8 +33,8 @@ export default function RepoPulls() {
 			
 			{(isOpenView ? openPrs : closedPrs).map(({
 				title,
-				id, // TODO
-				authorName,
+				id,
+				userName,
 				state,
 				date,
 			}) => <div className="py-3 px-4 flex hover:bg-gray-50"
@@ -75,7 +54,7 @@ export default function RepoPulls() {
 						</Link>
 					</div>
 					<div className="text-sm text-gray-400">
-						#{id} created on {dayjs(date).format("MMM D")} by <Link to={`/${authorName}`} className="hover:text-blue-600">{authorName}</Link>
+						#{id} created on {dayjs(date).format("MMM D")} by <Link to={`/${userName}`} className="hover:text-blue-600">{userName}</Link>
 					</div>
 				</div>
 				{/* <div className="ml-auto text-gray-600">
