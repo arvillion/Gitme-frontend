@@ -12,7 +12,7 @@ export default function RepoLayout() {
 	const params = useParams()
 	const { userName, repoName, branchId } = params
 	const baseUrl = `/${userName}/${repoName}`
-	const { repoInfo, branches, defaultBranch } = useLoaderData()
+	const { repoInfo, branches, defaultBranch, isAC } = useLoaderData()
 	const isPublic = repoInfo.state.toUpperCase() == "PUBLIC"
 	const location = useLocation()
 
@@ -79,7 +79,7 @@ export default function RepoLayout() {
 			<FontAwesomeIcon icon={faCodeCommit} fixedWidth/>
 			<span className="ml-3">Commits</span>
 		</RepoMenu.Item>
-		<RepoMenu.Item to={`${baseUrl}/settings`} display={isMyRepo}>
+		<RepoMenu.Item to={`${baseUrl}/settings`} display={isMyRepo || isAC}>
 			<FontAwesomeIcon icon={faGear} fixedWidth/>
 			<span className="ml-3">Settings</span>
 		</RepoMenu.Item>

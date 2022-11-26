@@ -13,7 +13,6 @@ export default function RepoCommit() {
 	const { userName, repoName } = useParams()
 	const { commit, diffPromise } = useLoaderData()
 
-
 	const ref = createRef()
 	const configuration = {
 		drawFileList: true,

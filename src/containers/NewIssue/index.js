@@ -17,7 +17,6 @@ export default function NewIssue() {
 	const [ title, setTitle ] = useState('')
 
 	const myName = localStorage.getItem('userName')
-
 	return <>
 		<div className="text-3xl py-4 border-gray-300">New Issue</div>
 		{(err && fetcher.state === 'idle') && <Alert variant="red">{err}</Alert>}

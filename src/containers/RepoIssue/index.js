@@ -21,6 +21,7 @@ export default function RepoIssue() {
 	const navigation = useNavigation()
 	const err = useActionData()?.err
 	const isAC = useRouteLoaderData("repoRoot")
+	const myName = localStorage.getItem('userName')
 
 	return <>
 		<div className="pb-3 border-b border-gray-300">
@@ -52,7 +53,7 @@ export default function RepoIssue() {
 				<input type="hidden" name="issueId" value={issueInfo.idWithinRepo}/>
 				<input type="hidden" name="isOpen" value={issueInfo.state}/>
 			</Form>
-			<Dialog>
+			<Dialog userName={myName}>
 				{issueInfo.state ?
 				<Tabb.Group>
 					<Tabb.List className="bg-gray-100">
