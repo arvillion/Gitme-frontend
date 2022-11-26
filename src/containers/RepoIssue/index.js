@@ -20,7 +20,7 @@ export default function RepoIssue() {
 	const { issueInfo, comments } = useLoaderData()
 	const navigation = useNavigation()
 	const err = useActionData()?.err
-	const isAC = useRouteLoaderData("repoRoot")
+	const { isAC } = useRouteLoaderData("repoRoot")
 	const myName = localStorage.getItem('userName')
 
 	return <>
@@ -86,7 +86,7 @@ export default function RepoIssue() {
 				<div className="p-2 space-y-2">
 					<Alert variant="yellow">This issue is closed.</Alert>
 					<div className="text-right">
-						<Button variant="green" type="submit" form="formState">Reopen issue</Button>
+						{isAC && <Button variant="green" type="submit" form="formState">Reopen issue</Button>}
 					</div>
 				</div>
 				}
