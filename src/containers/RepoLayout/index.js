@@ -6,6 +6,7 @@ import Badge from "../../components/Badge";
 import Button from "../../components/Button";
 import RepoMenu from "../../components/RepoMenu";
 import StarButton from "../../components/StarButton";
+import WatchButton from "../../components/WatchButton";
 
 export default function RepoLayout() {
 	const params = useParams()
@@ -20,17 +21,23 @@ export default function RepoLayout() {
 
 	<div className="space-y-4 mb-4">
 		<div className="flex justify-between flex-wrap items-center">
-			<h3 className="text-xl text-gray-300 flex items-center">
-				<FontAwesomeIcon icon={faWarehouse}/>
-				<Link className="text-blue-600 px-2.5 hover:underline" to={`/${userName}`}>{userName}</Link>
-				/
-				<Link className="text-blue-600 px-2.5 hover:underline font-bold" to={baseUrl}>{repoName}</Link>
-				<Badge>{isPublic ? 'Public' : 'Private'}</Badge>
+			<h3 className="text-xl text-gray-300 justify-center flex flex-col">
+				<div>
+					<FontAwesomeIcon icon={faWarehouse}/>
+					<Link className="text-blue-600 px-2.5 hover:underline" to={`/${userName}`}>{userName}</Link>
+					/
+					<Link className="text-blue-600 px-2.5 hover:underline font-bold" to={baseUrl}>{repoName}</Link>
+					<Badge>{isPublic ? 'Public' : 'Private'}</Badge>
+				</div>
+				{repoInfo.forkFromUserName && <div className="text-sm text-gray-800 mt-2">
+					forked from <Link className="text-blue-600 hover:underline" to={`/${repoInfo.forkFromUserName}/${repoInfo.forkFromRepoName}`}>{repoInfo.forkFromUserName}/{repoInfo.forkFromRepoName}</Link>	
+				</div>}
 			</h3>
 			
 			<div className="space-x-2 hidden md:block">
 				<StarButton starNum={repoInfo.star} repoId={repoInfo.id} isStarred={repoInfo.starOwn === 1}></StarButton>
-				<Button as="a" to={`/${userName}/${repoName}/fork`}><FontAwesomeIcon icon={faCodeFork}/><span className="px-1.5">Fork</span><Badge type="gray full">{repoInfo.fork}</Badge></Button>	
+				<Button as="a" to={`/${userName}/${repoName}/fork`} disabled={isMyRepo}><FontAwesomeIcon icon={faCodeFork}/><span className="px-1.5">Fork</span><Badge type="gray full">{repoInfo.fork}</Badge></Button>	
+				<WatchButton repoId={repoInfo.id} isWatching={repoInfo.watchIt}/>
 			</div>
 		</div>
 		<div className="space-y-4 md:hidden">
@@ -49,7 +56,8 @@ export default function RepoLayout() {
 
 			<div className="flex space-x-2">
 				<StarButton starNum={repoInfo.star} repoId={repoInfo.id} className="flex-1" isStarred={repoInfo.starOwn === 1}></StarButton>
-				<Button className="flex-1" as="a" to={`/${userName}/${repoName}/fork`}><FontAwesomeIcon icon={faCodeFork}/><span className="px-2">Fork</span></Button>
+				<Button className="flex-1" as="a" to={`/${userName}/${repoName}/fork`} disabled={isMyRepo}><FontAwesomeIcon icon={faCodeFork}/><span className="px-2">Fork</span></Button>
+				{/* <WatchButton repoId={repoInfo.id} isWatching={repoInfo.watchIt} className="flex-1"/> */}
 			</div>
 		</div>
 	</div>

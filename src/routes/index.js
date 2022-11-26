@@ -12,7 +12,7 @@ import RepoIssues from "../containers/RepoIssues";
 import SigninPage from "../containers/SigninPage";
 import SignupPage from "../containers/SignupPage";
 import UserPage from "../containers/UserPage";
-import repoInfoLoader, { accessAction, contentLoader, deleteAction, deleteRepoAction, detailAction, fileContentLoader, forkAction, repoAction, starAction, uploadAction } from "./repo";
+import repoInfoLoader, { accessAction, contentLoader, deleteAction, deleteRepoAction, detailAction, fileContentLoader, forkAction, repoAction, starAction, uploadAction, watchAction } from "./repo";
 import { editProfileAction, userDataLoader } from "./user";
 import DefaultBranchRedirect from "../containers/DefaultBranchRedirect";
 import NewIssue from "../containers/NewIssue";
@@ -20,13 +20,16 @@ import { createIssueAction, issueAction, issueLoader, issueStateAction, newComme
 import Settings from "../containers/Settings";
 import Fork from "../containers/Fork";
 import RepoPulls from "../containers/RepoPulls";
-import { prLoader, prsLoader } from "./pr";
+import { newPrAction, newPrLoader, prLoader, prsLoader } from "./pr";
 import UploadFile from "../containers/UploadFile";
 import DeleteFile from "../containers/DeleteFile";
 import { commitLoader, commitsLoader } from "./commits";
 import Search from "../containers/Search";
 import { searchLoader } from "./search";
 import RepoPull from "../containers/RepoPull";
+import NewPull from "../containers/NewPull";
+import { notificationsLoader, setReadAction } from "./notifications";
+import Notifications from "../containers/Notifications";
 
 const router = createBrowserRouter([
 	{
@@ -44,6 +47,12 @@ const router = createBrowserRouter([
 				loader: searchLoader,
 				errorElement: <ProtectedResource><GeneralError /></ProtectedResource>,
 				element: <Search/>
+			},
+			{
+				path: '/notifications',
+				loader: notificationsLoader,
+				action: setReadAction,
+				element: <Notifications/>
 			},
 			{
 				path: ':userName',
@@ -133,7 +142,13 @@ const router = createBrowserRouter([
 								loader: prsLoader,
 							},
 							{
-								path: '/:prId',
+								path: 'new',
+								element: <NewPull/>,
+								loader: newPrLoader,
+								action: newPrAction,
+							},
+							{
+								path: ':prId',
 								element: <RepoPull/>,
 								loader: prLoader,
 							},
@@ -182,6 +197,10 @@ const router = createBrowserRouter([
 	{
 		path: '_repo.detail',
 		action: detailAction,
+	},
+	{
+		path: '_repo.watch',
+		action: watchAction,
 	}
 	// {
 	// 	path: '_issue.state',

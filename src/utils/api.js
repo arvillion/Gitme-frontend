@@ -310,3 +310,23 @@ export async function getPullRequestById({ token,  prId }) {
 			PRID: prId
 		}), token)
 } 
+
+export async function getUnreadNotifications({ token }) {
+	return fcJSONAuth(API_URL + '/watch/getWatchInfoByMe', token)
+}
+
+export async function setNotificationRead({ token, id }) {
+	return fcJSONAuth(API_URL + '/watch/SetRead?id=' + id, token)
+}
+
+export async function addWatch({ token, repoId }) {
+	return fcJSONAuth(API_URL + '/watch/addWatch?repoID=' + repoId, token, {
+		method: 'POST'
+	})
+}
+
+export async function removeWatch({ token, repoId }) {
+	return fcJSONAuth(API_URL + '/watch/deleWatch?repoID=' + repoId, token, {
+		method: 'POST'
+	})
+}

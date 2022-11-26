@@ -11,6 +11,7 @@ export default function BranchSelector({
 	repoName,
 	currentBranchId: branchId,
 	sector = 'source',
+	handleChange,
 }) {
 	const location = useLocation()
 	return <Popover className="relative">
@@ -58,12 +59,17 @@ export default function BranchSelector({
 						<Ta.Panel>
 							<ul className="text-sm divide-y divide-gray-300">
 								{branches.map(({ name, objID }) => <li className="flex items-center px-4 py-2 hover:bg-gray-100"
-									key={objID}
+									key={name}
 								>
+									{handleChange ?<a onClick={() => handleChange({ userName, repoName, branchId: name })}>
+										<FontAwesomeIcon icon={faCheck} className={ name === branchId ? '' : "invisible"}/>
+										<span className="ml-3">{name}</span>	
+									</a>
+									:
 									<Link to={path.join(`/${userName}/${repoName}/${sector}/`, name, dir) + location.search}>
 										<FontAwesomeIcon icon={faCheck} className={ name === branchId ? '' : "invisible"}/>
 										<span className="ml-3">{name}</span>
-									</Link>
+									</Link>}
 								</li>)}
 						
 							</ul>

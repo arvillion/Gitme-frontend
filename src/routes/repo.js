@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom"
-import { createRepository, deleteFile, deleteRepository, forkRepo, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, invite, starRepo, undoStarRepo, unInvite, updateRepoDesc, uploadFile } from "../utils/api"
+import { addWatch, createRepository, deleteFile, deleteRepository, forkRepo, getAllBranches, getCloneUrl, getContent, getFileContent, getRepoIdByUserNameAndRepoName, getRepoInfo, invite, removeWatch, starRepo, undoStarRepo, unInvite, updateRepoDesc, uploadFile } from "../utils/api"
 import * as path from "../utils/path"
 
 export default async function repoInfoLoader({ params }) {
@@ -180,4 +180,18 @@ export async function detailAction({ request, params }) {
 	} catch (err) {
 		return { err: err.message, type: 'detail' }
 	}	
+}
+
+export async function watchAction({ request, params }) {
+	const token = localStorage.getItem('token')
+	const formData = await request.formData()
+	const repoId = formData.get('repoId')
+	const isWatching = formData.get('isWatching') === "1"
+	try {
+		if (isWatching) await removeWatch({ token, repoId })
+		else await addWatch({ token, repoId })
+	} catch (err) {
+		console.log(err)
+		return { err: err.message }
+	}
 }

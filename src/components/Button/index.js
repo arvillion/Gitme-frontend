@@ -30,14 +30,14 @@ const extraStyles = {
 }
 
 const baseStyles = {
-	fill: ['inline-block', 'px-6', 'py-2.5', 'font-medium', 'text-xs', 'leading-tight', 'rounded', 'shadow-md', 'hover:shadow-lg', 'focus:shadow-lg', 'focus:outline-none', 'focus:ring-0', 'active:shadow-lg', 'transition', 'duration-150', 'ease-in-out'],
+	fill: ['inline-block', 'px-6', 'py-2.5', 'font-medium', 'text-xs', 'leading-tight', 'rounded', 'shadow-md', 'hover:shadow-lg', 'focus:shadow-lg', 'focus:outline-none', 'focus:ring-0', 'active:shadow-lg', 'transition', 'duration-150', 'ease-in-out', 'text-center'],
 	outline: []
 }
 
 export default function Button({
 	variant = "light",
 	outline = false,
-	className,
+	className = '',
 	children,
 	disabled = false,
 	as = "button",
@@ -48,7 +48,8 @@ export default function Button({
 	const disabledStyle = "pointer-events-none opacity-60"
 	return as === "a" ? 
 		<Link {...props}
-			className={`${baseStyles[baseStyleName].join(" ")} ${extraStyles[extraStyleName].join(" ")} ${className}`}
+			to={disabled ? '' : props.to}
+			className={`${baseStyles[baseStyleName].join(" ")} ${extraStyles[extraStyleName].join(" ")} ${disabled ? disabledStyle : ''} ${className}`}
 		>
 			{children}
 		</Link> : 

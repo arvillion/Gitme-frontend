@@ -225,7 +225,7 @@ export default function RepoCode() {
 	</div>
 	<div className="mt-6">
 		{file.err ? <Alert variant="red">{`The '${userName}/${repoName}' repository doesn't contain the '${fileName}' file in '${branchId}'`}</Alert>
-		          : file.text ? <CodeHighlighter fileName={fileName} content={file.content}/>
+		          : file.text ? <CodeHighlighter fileName={fileName} content={file.content} linesNum={file.linesNum} size={file.contentSize}/>
 						              : <Alert variant="yellow">This type of file is not supported to show.</Alert>}
 	</div>
 	</>)
