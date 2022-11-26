@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom"
-import { getAllBranches, getPullRequestById, getPullRequests, getRepoIdByUserNameAndRepoName, getRepoInfo } from "../utils/api"
+import { redirect, useParams } from "react-router-dom"
+import { createPullRequest, getAllBranches, getPullRequestById, getPullRequests, getRepoIdByUserNameAndRepoName, getRepoInfo } from "../utils/api"
 
 export async function prsLoader({ params }) {
 	const token = localStorage.getItem('token')
@@ -40,13 +40,17 @@ export async function newPrLoader({ params }) {
 export async function newPrAction({ params, request }) {
 	const token = localStorage.getItem('token')
 	const formData = await request.formData()
-
+	const { userName, repoName } = params
 	const fromBranchId = formData.get('fromBranchId')
 	const toBranchId = formData.get('toBranchId')
 	const fromRepoId = formData.get('fromRepoId')
 	const toRepoId = formData.get('toRepoId')
 	const title = formData.get('title')
-	console.log(fromBranchId, toBranchId, fromRepoId, toRepoId, title)
-	return { err: 'saass' }
+	try {
+		const { data: prId } = await createPullRequest({ token, repoId: fromRepoId, title, toBranch: toBranchId, fromBranch: fromBranchId })
+		return redirect(`/${userName}/${repoName}/pulls/${prId}`)
+	} catch (err) {
+		return { err: err.message }
+	}
 
 }
