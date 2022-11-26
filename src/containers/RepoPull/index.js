@@ -1,40 +1,14 @@
 import { faCodeMerge, faCodePullRequest } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import dayjs from "dayjs"
-import { Link, useLoaderData, useParams } from "react-router-dom"
+import { Form, Link, useActionData, useLoaderData, useNavigation, useParams, useRouteLoaderData } from "react-router-dom"
+import Button, { LoadingButton } from "../../components/Button"
 import UserLink from "../../components/UserLink"
-import { commitLoader } from "../../routes/commits"
-
-// date
-// : 
-// "2022-11-25 20:33:04"
-// diff
-// : 
-// null
-// fromBranch
-// : 
-// "master"
-// fromRepoId
-// : 
-// 27
-// id
-// : 
-// 2
-// state
-// : 
-// "UNPROCESS"
-// title
-// : 
-// "add 3.pdf"
-// toBranch
-// : 
-// "master"
-// toRepoId
-// : 
-// 26
-// userName
-// : 
-// "123"
+import { Diff2HtmlUI } from 'diff2html/lib/ui/js/diff2html-ui'
+import 'diff2html/bundles/css/diff2html.min.css'
+import { createRef, useEffect, useState } from 'react'
+import { parse } from 'diff2html'
+import Alert from "../../components/Alert"
 
 const prState = {
 	UNPROCESS: 'UNPROCESS',
@@ -45,7 +19,32 @@ const prState = {
 export default function RepoPull () {
 	const { pr } = useLoaderData()
 	const { userName, repoName } = useParams()
-	const isMerged = pr.state === 'ACCEPT'
+	// const isMerged = pr.state === 'ACCEPT'
+	const { isAC } = useRouteLoaderData("repoRoot")
+	const navigation = useNavigation()
+	const err = useActionData()?.err
+
+	const ref = createRef()
+	const configuration = {
+		drawFileList: true,
+		fileListToggle: false,
+	}
+	const [diffSum, setDiffSum] = useState({})
+
+	useEffect(() => {
+		const diffJson = parse(pr.diff || '')	
+		console.log(diffJson)
+		// setDiffSum({
+		// 	changedFiles: diffJson.length,
+		// 	additions: diffJson?.map(d => d.addedLines).reduce((pv, cv) => pv + cv),
+		// 	deletions: diffJson.map(d => d.deletedLines).reduce((pv, cv) => pv + cv)
+		// })
+		// const diff2htmlUi = new Diff2HtmlUI(ref.current, diffJson, configuration)
+		// diff2htmlUi.draw()
+		// diff2htmlUi.highlightCode()
+	}, [])
+
+
 	return <>
 	<div className="pb-3 border-b border-gray-300">
 		<h1 className="text-3xl py-3">
@@ -76,6 +75,23 @@ export default function RepoPull () {
 			Created {dayjs(pr.date).fromNow()}
 		</div>
 	</div>
+	{navigation.state === 'idle' && err && <div className="mt-2"><Alert variant="red">{err}</Alert></div>}
+	<p className='mt-3 mb-5 font-light text-gray-600'>
+		Showing <strong>{diffSum.changedFiles} changed files</strong> with <strong>{diffSum.additions} additions</strong> and <strong>{diffSum.deletions} deletions</strong>.
+	</p>
+	<div ref={ref}></div>
+	{isAC && pr.state === prState.UNPROCESS && <div className="space-x-2 mt-2">
+		<Form method="post" id="formAccept" className="hidden">
+			<input type="hidden" name="act" value="accept"/>
+			<input type="hidden" name="prId" value={pr.id}/>
+		</Form>
+		<Form method="post" id="formReject" className="hidden">
+			<input type="hidden" name="act" value="reject"/>
+			<input type="hidden" name="prId" value={pr.id}/>
+		</Form>
+		<LoadingButton variant="green" type="submit" form="formAccept">Accept</LoadingButton>
+		<LoadingButton variant="red" type="submit" form="formReject">Reject</LoadingButton>
+	</div>}
 	</>
 }
 

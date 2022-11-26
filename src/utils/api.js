@@ -212,7 +212,7 @@ export function deleteRepository({ repoId, token }) {
 }
 export function updateRepoDesc({ desc, repoId, token }) {
 	return fcJSONAuth(API_URL + '/repo/edit/updateDescriById?'
-		+ new URLSearchParams({ descri: desc, id: repoId })
+		+ new URLSearchParams({ descri: desc, repoID: repoId })
 	, token, {
 		method: 'POST'
 	})
@@ -334,6 +334,20 @@ export async function removeWatch({ token, repoId }) {
 export async function createPullRequest({ token, repoId, title, toBranch, fromBranch }) {
 	return fcJSONAuth(API_URL + '/PR/view/makePR?'
 		+ new URLSearchParams({ repoID: repoId, title, toBranch, fromBranch }), token, {
+			method: 'POST'
+		})
+}
+
+export function acceptPullRequest({ token, prId }) {
+	return fcJSONAuth(API_URL + '/PR/edit/acceptPR?'
+		+ new URLSearchParams({ PRID: prId }), token, {
+			method: 'POST'
+		})
+}
+
+export function rejectPullRequest({ token, prId }) {
+	return fcJSONAuth(API_URL + '/PR/edit/rejectPR?'
+		+ new URLSearchParams({ PRRSId: prId }), token, {
 			method: 'POST'
 		})
 }

@@ -1,5 +1,5 @@
 import { redirect, useParams } from "react-router-dom"
-import { createPullRequest, getAllBranches, getPullRequestById, getPullRequests, getRepoIdByUserNameAndRepoName, getRepoInfo } from "../utils/api"
+import { acceptPullRequest, rejectPullRequest, createPullRequest, getAllBranches, getPullRequestById, getPullRequests, getRepoIdByUserNameAndRepoName, getRepoInfo,  } from "../utils/api"
 
 export async function prsLoader({ params }) {
 	const token = localStorage.getItem('token')
@@ -53,4 +53,20 @@ export async function newPrAction({ params, request }) {
 		return { err: err.message }
 	}
 
+}
+
+export async function prStateAction({ params, request }) {
+	const token = localStorage.getItem('token')
+	const formData = await request.formData()
+
+	const prId = formData.get('prId')
+	const act = formData.get('act')
+	try {
+		if (act === 'accept') await acceptPullRequest({ token, prId })
+		else await rejectPullRequest({ token, prId })
+		return { err: '' }
+	} catch (err) {
+		return { err: err.message }
+	}
+	
 }

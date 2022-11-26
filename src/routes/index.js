@@ -20,7 +20,7 @@ import { createIssueAction, issueAction, issueLoader, issueStateAction, newComme
 import Settings from "../containers/Settings";
 import Fork from "../containers/Fork";
 import RepoPulls from "../containers/RepoPulls";
-import { newPrAction, newPrLoader, prLoader, prsLoader } from "./pr";
+import { newPrAction, newPrLoader, prLoader, prsLoader, prStateAction } from "./pr";
 import UploadFile from "../containers/UploadFile";
 import DeleteFile from "../containers/DeleteFile";
 import { commitLoader, commitsLoader } from "./commits";
@@ -151,6 +151,7 @@ const router = createBrowserRouter([
 								path: ':prId',
 								element: <RepoPull/>,
 								loader: prLoader,
+								action: prStateAction,
 							},
 						]
 					},
