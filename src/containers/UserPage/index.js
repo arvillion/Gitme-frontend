@@ -49,8 +49,9 @@ export default function UserPage({
 	const cpFetcher = useFetcher()
 	const cpSuccess = cpFetcher.state === 'idle' && cpFetcher.data?.err === ''	
 
-	const { userName } = useParams()
-
+	const myName = localStorage.getItem('userName')
+	const { userName = myName } = useParams()
+	console.log(myName, userName)
 	return (
 			<div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4">
 				<div className="w-full md:w-60 lg:w-64 shrink-0">
@@ -104,11 +105,11 @@ export default function UserPage({
 									<Await resolve={repos} children={(resolvedRepos) => <Badge type="gray full">{resolvedRepos.all.length}</Badge>}/>
 								</React.Suspense>
 							</Tab>
-							<Tab>
+							{(myName === userName) && <Tab>
 								<FontAwesomeIcon icon={faStar}/>
 								<span className="ml-3 mr-2 text-sm font-medium text-gray-900">Stars</span>
 								<Badge type="gray full">{starredRepos.length}</Badge>
-							</Tab>
+							</Tab>}
 						</Tab.List>
 						<Tab.Panels>
 							<Tab.Panel>
@@ -222,7 +223,7 @@ export default function UserPage({
 									</React.Suspense>
 								</div>
 							</Tab.Panel>
-							<Tab.Panel>
+							{(myName === userName) && <Tab.Panel>
 								<div className="space-y-4 divide-y divide-gray-200 border-t border-gray-200 mt-6">
 									{starredRepos.map(({ id, name, state, desc, star, fork, issue, pr, lastUpdate, starOwn, creatorName }) => (
 										<RepoSummary 
@@ -242,7 +243,7 @@ export default function UserPage({
 									))}
 
 								</div>
-							</Tab.Panel>
+							</Tab.Panel>}
 						</Tab.Panels>
 					</Tab.Group>
 					

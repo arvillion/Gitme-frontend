@@ -21,6 +21,7 @@ export default function RepoIssue() {
 	const navigation = useNavigation()
 	const err = useActionData()?.err
 	const { isAC } = useRouteLoaderData("repoRoot")
+	
 	const myName = localStorage.getItem('userName')
 
 	return <>

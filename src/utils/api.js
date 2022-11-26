@@ -1,6 +1,6 @@
 import * as path from "./path"
 
-const API_URL = 'http://106.55.104.82:8080'
+const API_URL = 'http://106.55.104.82:8081'
 const GIT_SERVER = 'http://0.0.0.0'
 
 const fcJSON = (...args) => fetch(...args).then(async response => {

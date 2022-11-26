@@ -1,5 +1,5 @@
 import { faCircleCheck, faCircleDot, faCommentDots } from "@fortawesome/free-regular-svg-icons";
-import { faCheck, faCodePullRequest } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCodePullRequest, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -7,6 +7,11 @@ import { Link, useLoaderData, useRouteLoaderData } from "react-router-dom";
 import Button from "../../components/Button";
 import { getIssues } from "../../utils/api";
 
+const prState = {
+	UNPROCESS: 'UNPROCESS',
+	ACCEPT: 'ACCEPT',
+	REJECT: 'REJECT',
+}
 
 export default function RepoPulls() {
 	const { repoId } = useRouteLoaderData("repoRoot")
@@ -40,11 +45,14 @@ export default function RepoPulls() {
 			}) => <div className="py-3 px-4 flex hover:bg-gray-50"
 				key={id}
 			>
-				{state ? <div className="text-green-600 mr-3 mt-0.5">
+				{(state === prState.UNPROCESS) ? <div className="text-green-600 mr-3 mt-0.5">
 					<FontAwesomeIcon icon={faCodePullRequest}/>	
-				</div>
-				: <div className="text-purple-600 mr-3 mt-0.5">
+				</div> : (state === prState.ACCEPT) ?
+				<div className="text-purple-600 mr-3 mt-0.5">
 					<FontAwesomeIcon icon={faCircleCheck}/>	
+				</div> :
+				<div className="text-red-600 mr-3 mt-0.5">
+					<FontAwesomeIcon icon={faXmark}/>	
 				</div>}
 				
 				<div className="flex flex-col justify-between">

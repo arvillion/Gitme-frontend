@@ -45,7 +45,7 @@ const router = createBrowserRouter([
 			{
 				path: '/search',
 				loader: searchLoader,
-				errorElement: <ProtectedResource><GeneralError /></ProtectedResource>,
+				// errorElement: <ProtectedResource><GeneralError /></ProtectedResource>,
 				element: <Search/>
 			},
 			{
