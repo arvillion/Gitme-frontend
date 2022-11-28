@@ -33,15 +33,15 @@ export default function RepoPull () {
 
 	useEffect(() => {
 		const diffJson = parse(pr.diff || '')	
-		console.log(diffJson)
-		// setDiffSum({
-		// 	changedFiles: diffJson.length,
-		// 	additions: diffJson?.map(d => d.addedLines).reduce((pv, cv) => pv + cv),
-		// 	deletions: diffJson.map(d => d.deletedLines).reduce((pv, cv) => pv + cv)
-		// })
-		// const diff2htmlUi = new Diff2HtmlUI(ref.current, diffJson, configuration)
-		// diff2htmlUi.draw()
-		// diff2htmlUi.highlightCode()
+		//console.log(diffJson)
+		setDiffSum({
+			changedFiles: diffJson.length,
+			additions: diffJson?.map(d => d.addedLines).reduce((pv, cv) => pv + cv),
+			deletions: diffJson.map(d => d.deletedLines).reduce((pv, cv) => pv + cv)
+		})
+		const diff2htmlUi = new Diff2HtmlUI(ref.current, diffJson, configuration)
+		diff2htmlUi.draw()
+		diff2htmlUi.highlightCode()
 	}, [])
 
 
