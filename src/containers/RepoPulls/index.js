@@ -21,7 +21,6 @@ export default function RepoPulls() {
 
 	const openPrs = prs.filter(p => p.state === 'UNPROCESS')
 	const closedPrs = prs.filter(p => p.state !== 'UNPROCESS') 
-	console.log(openPrs)
 	return <>
 		<div className="mb-4 flex flex-row-reverse">
 			<Button variant="green" className="inline-block" as="a" to="new">New pull request</Button>

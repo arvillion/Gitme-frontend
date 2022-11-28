@@ -67,10 +67,10 @@ export default function Modal({
 						From: "opacity-100 translate-y-0 sm:scale-100"
 						To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 				--> */}
-				<div className={"relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg ease-in duration-200 " + (show ? " opacity-100 translate-y-0 sm:scale-100" : "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95")}
+				<div className={"relative transform text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg ease-in duration-200 " + (show ? " opacity-100 translate-y-0 sm:scale-100" : "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95")}
 					ref={panelRef}
 				>
-					<div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+					<div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 rounded-t-lg">
 						<div className="mt-3 sm:mt-0">
 							<h3 className="text-xl font-medium leading-6 text-gray-900" id="modal-title">{title}</h3>
 							<div className="mt-4">
@@ -78,7 +78,7 @@ export default function Modal({
 							</div>
 						</div>
 					</div>
-					<div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 sm:space-x-3 sm:space-x-reverse space-y-2 sm:space-y-0">
+					<div className="bg-gray-50 rounded-b-lg px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 sm:space-x-3 sm:space-x-reverse space-y-2 sm:space-y-0">
 						{showSubmitBtn && <Button variant="blue" className="w-full sm:w-auto" onClick={handleSubmit}>Submit</Button>}
 						{showCloseBtn && <Button variant="light" className="w-full sm:w-auto" onClick={handleClose}>Close</Button>}
 					</div>

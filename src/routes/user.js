@@ -46,7 +46,6 @@ export async function editProfileAction({ params, request }) {
 	const token = localStorage.getItem('token') 
 
 	try {
-		console.log('doing')
 		await editMyProfile({ token, bio, phone })
 		return { err: '' }
 	} catch(err) {

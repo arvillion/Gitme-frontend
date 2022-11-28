@@ -94,11 +94,11 @@ export default function RepoCode() {
 		<div className="flex items-center space-x-6">
 			<BranchSelector repoName={repoName} userName={userName} dir={dir} branches={branches} currentBranchId={branchId}/>
 			{isRoot ? <div className="hidden lg:block space-x-4 text-sm text-gray-600">
-				<div className="inline-flex items-center">
+				<Link className="inline-flex items-center hover:text-blue-600" to={`/${userName}/${repoName}/branches`}>
 					<FontAwesomeIcon icon={faCodeBranch}/>
-					<span className="px-1 font-medium text-gray-900">{branches.length}</span>
-					branches
-				</div>
+					<span className="px-1 font-medium text-gray-900 hover:text-blue-600">{branches.length}</span>
+					{(branches.length === 1) ? 'branch' : 'branches'}
+				</Link>
 				{/* <div className="inline-flex items-center">
 					<FontAwesomeIcon icon={faTag}/>
 					<span className="px-1 font-medium text-gray-900">1</span>

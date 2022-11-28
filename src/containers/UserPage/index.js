@@ -51,7 +51,6 @@ export default function UserPage({
 
 	const myName = localStorage.getItem('userName')
 	const { userName = myName } = useParams()
-	console.log(myName, userName)
 	return (
 			<div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4">
 				<div className="w-full md:w-60 lg:w-64 shrink-0">

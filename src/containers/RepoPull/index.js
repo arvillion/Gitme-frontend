@@ -9,6 +9,7 @@ import 'diff2html/bundles/css/diff2html.min.css'
 import { createRef, useEffect, useState } from 'react'
 import { parse } from 'diff2html'
 import Alert from "../../components/Alert"
+import BranchBadge from "../../components/BranchBadge"
 
 const prState = {
 	UNPROCESS: 'UNPROCESS',
@@ -93,14 +94,4 @@ export default function RepoPull () {
 		<LoadingButton variant="red" type="submit" form="formReject">Reject</LoadingButton>
 	</div>}
 	</>
-}
-
-function BranchBadge({
-	repoName,
-	userName,
-	branchId,
-}) {
-	return <Link to={`/${userName}/${repoName}/source/${branchId}`}
-		className="text-blue-500 bg-blue-50 px-1.5 py-1 rounded"
-	>{userName}:{branchId}</Link>
 }

@@ -13,7 +13,6 @@ export async function prLoader({ params }) {
 	const token = localStorage.getItem('token')
 	const { prId } = params
 	const { data: pr } = await getPullRequestById({ prId, token })
-	console.log(pr)
 	return { pr }
 }
 

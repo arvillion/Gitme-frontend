@@ -351,3 +351,14 @@ export function rejectPullRequest({ token, prId }) {
 			method: 'POST'
 		})
 }
+
+export function addBranch({ token, branchSource, branchName, repoId }) {
+	return fcJSONAuth(API_URL + '/repo/edit/addBranch?'
+		+ new URLSearchParams({
+			branchName,
+			fromBranchName: branchSource,
+			repoID: repoId
+		}), token, {
+			method: 'POST'
+		})
+}

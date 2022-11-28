@@ -79,6 +79,10 @@ export default function RepoLayout() {
 			<FontAwesomeIcon icon={faCodeCommit} fixedWidth/>
 			<span className="ml-3">Commits</span>
 		</RepoMenu.Item>
+		<RepoMenu.Item to={`${baseUrl}/branches/`}>
+			<FontAwesomeIcon icon={faCodeBranch} fixedWidth/>
+			<span className="ml-3">Branches</span>
+		</RepoMenu.Item>
 		<RepoMenu.Item to={`${baseUrl}/settings`} display={isMyRepo || isAC}>
 			<FontAwesomeIcon icon={faGear} fixedWidth/>
 			<span className="ml-3">Settings</span>

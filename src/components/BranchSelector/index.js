@@ -58,7 +58,7 @@ export default function BranchSelector({
 						<Ta.Panels>
 						<Ta.Panel>
 							<ul className="text-sm divide-y divide-gray-300">
-								{branches.map(({ name, objID }) => <li className="flex items-center px-4 py-2 hover:bg-gray-100"
+								{branches.map(({ name, objID }) => <li className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
 									key={name}
 								>
 									{handleChange ?<a onClick={() => handleChange({ userName, repoName, branchId: name })}>

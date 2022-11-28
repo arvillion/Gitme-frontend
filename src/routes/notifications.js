@@ -12,7 +12,6 @@ export async function setReadAction({ params, request }) {
 	const formData = await request.formData()
 	const notificationId = formData.get('id')
 	try {
-		console.log(notificationId)
 		await setNotificationRead({ token, id: notificationId })
 		return redirect('/notifications')
 	} catch (err) {

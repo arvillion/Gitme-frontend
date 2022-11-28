@@ -30,6 +30,8 @@ import RepoPull from "../containers/RepoPull";
 import NewPull from "../containers/NewPull";
 import { notificationsLoader, setReadAction } from "./notifications";
 import Notifications from "../containers/Notifications";
+import Branches from "../containers/Branches";
+import { newBranchAction } from "./branches";
 
 const router = createBrowserRouter([
 	{
@@ -87,6 +89,11 @@ const router = createBrowserRouter([
 						path: 'delete/:branchId/*',
 						element: <DeleteFile/>,
 						action: deleteAction,
+					},
+					{
+						path: 'branches',
+						element: <Branches/>,
+						action: newBranchAction,
 					},
 					{
 						path: 'source/:branchId',

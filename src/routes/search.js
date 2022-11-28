@@ -10,7 +10,6 @@ export async function searchLoader({ request, params }) {
 			token,
 			keyword: keyword
 		})
-		console.log(repos)
 		return { repos }
 	} else {
 		return redirect('/')
